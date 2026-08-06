@@ -1,6 +1,7 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
+import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import { buildConfig } from 'payload'
 
@@ -29,5 +30,5 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  sharp: undefined, // set in next.config via withPayload; sharp resolved automatically
+  sharp,
 })
