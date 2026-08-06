@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Image placeholder</title>
+  <desc id="desc">A neutral placeholder used when CMS media is unavailable.</desc>
+  <rect width="1200" height="800" fill="#e5e7eb"/>
+  <path d="M0 620 270 390l210 175 155-135 565 390H0z" fill="#cbd5e1"/>
+  <circle cx="865" cy="245" r="82" fill="#f8fafc"/>
+  <rect x="64" y="64" width="1072" height="672" rx="28" fill="none" stroke="#94a3b8" stroke-width="8"/>
+</svg>

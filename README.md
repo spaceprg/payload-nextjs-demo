@@ -39,10 +39,9 @@ src/
 4. Visit `/admin` to create your first admin user (Payload prompts for this
    automatically on first load), then add Service entries, an About global,
    and a Contact global — each Service needs a `heroImage`.
-5. Optionally run `npx tsx src/seed/index.ts` to pre-populate the Services
-   list and both globals with the dummy copy from the original spec (you'll
-   still need to attach hero images by hand in the admin UI, since uploads
-   can't be scripted without real image files).
+5. Optionally run `npx tsx src/seed/index.ts` to pre-populate the About and
+   Contact globals with dummy copy. Add Service entries and hero images in the
+   admin UI.
 6. Visit the frontend: `/`, `/services`, `/services/web-development`,
    `/about`, `/contact`.
 
