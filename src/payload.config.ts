@@ -39,7 +39,7 @@ export default buildConfig({
         // object URL instead (requires the bucket's public/private toggle to be "Public").
         media: {
           generateFileURL: ({ filename, prefix }) =>
-            `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${process.env.SUPABASE_S3_BUCKET}/${prefix ? `${prefix}/` : ''}${filename}`,
+            `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${encodeURIComponent(process.env.SUPABASE_S3_BUCKET || '')}/${prefix ? `${encodeURIComponent(prefix)}/` : ''}${encodeURIComponent(filename)}`,
         },
       },
       bucket: process.env.SUPABASE_S3_BUCKET || '',
