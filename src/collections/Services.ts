@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import { type CollectionConfig, slugField } from 'payload'
 
 export const Services: CollectionConfig = {
   slug: 'services',
@@ -11,13 +11,7 @@ export const Services: CollectionConfig = {
   },
   fields: [
     { name: 'title', type: 'text', required: true },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      admin: { description: 'URL-friendly identifier, e.g. web-development' },
-    },
+    slugField(),
     {
       name: 'shortDescription',
       type: 'textarea',
