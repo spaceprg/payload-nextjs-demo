@@ -1,4 +1,5 @@
 import { type CollectionConfig, slugField } from 'payload'
+import { layoutBlocks } from '../blocks'
 
 export const Services: CollectionConfig = {
   slug: 'services',
@@ -25,6 +26,16 @@ export const Services: CollectionConfig = {
       required: true,
     },
     { name: 'content', type: 'richText' },
+    {
+      name: 'layout',
+      type: 'blocks',
+      label: 'Page Builder',
+      blocks: layoutBlocks,
+      admin: {
+        description:
+          'Build the page below by adding, reordering, and configuring sections. When this has at least one section, it replaces the content above.',
+      },
+    },
     {
       name: 'seo',
       type: 'group',

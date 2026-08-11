@@ -21,6 +21,87 @@ export type Seo = {
   metaDescription?: string
 }
 
+// --- Page builder ------------------------------------------------------
+// Types matching the block configs in src/blocks/. Kept alongside the rest
+// of this file's manually-maintained types (see note above generate:types).
+
+export type LinkField = {
+  label: string
+  type?: 'reference' | 'custom'
+  reference?: { relationTo: 'services'; value: Service | string } | null
+  url?: string | null
+  newTab?: boolean | null
+  style?: 'primary' | 'secondary' | null
+}
+
+export type Alignment = 'left' | 'center' | 'right'
+
+export type ContentBlockData = {
+  id?: string
+  blockType: 'content'
+  eyebrow?: string | null
+  heading?: string | null
+  richText?: unknown
+  alignment?: Alignment | null
+}
+
+export type ImageBlockData = {
+  id?: string
+  blockType: 'imageBlock'
+  image: Media
+  altOverride?: string | null
+  caption?: string | null
+  alignment?: 'left' | 'center' | 'right' | null
+  size?: 'contained' | 'wide' | 'full' | null
+}
+
+export type CTABlockData = {
+  id?: string
+  blockType: 'cta'
+  heading?: string | null
+  text?: string | null
+  alignment?: 'left' | 'center' | null
+  buttons?: LinkField[] | null
+}
+
+export type ColumnItem = {
+  id?: string
+  heading?: string | null
+  richText?: unknown
+  image?: Media | null
+  altOverride?: string | null
+  buttons?: LinkField[] | null
+}
+
+export type ColumnsLayout = '50-50' | '33-33-33' | '33-66' | '66-33'
+
+export type ColumnsBlockData = {
+  id?: string
+  blockType: 'columns'
+  layout: ColumnsLayout
+  columns: ColumnItem[]
+}
+
+export type ImageContentBlockData = {
+  id?: string
+  blockType: 'imageContent'
+  imagePosition?: 'left' | 'right' | null
+  image: Media
+  altOverride?: string | null
+  eyebrow?: string | null
+  heading?: string | null
+  richText?: unknown
+  buttons?: LinkField[] | null
+  background?: 'none' | 'light' | 'brand' | 'dark' | null
+}
+
+export type LayoutBlock =
+  | ContentBlockData
+  | ImageBlockData
+  | CTABlockData
+  | ColumnsBlockData
+  | ImageContentBlockData
+
 export type Service = {
   id: string
   title: string
@@ -28,6 +109,7 @@ export type Service = {
   shortDescription: string
   heroImage: Media
   content?: unknown
+  layout?: LayoutBlock[]
   seo?: Seo
 }
 
@@ -35,6 +117,7 @@ export type AboutGlobal = {
   title: string
   heroImage?: Media
   content?: unknown
+  layout?: LayoutBlock[]
   seo?: Seo
 }
 

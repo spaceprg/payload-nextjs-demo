@@ -5,3 +5,53 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Rich text rendering for page-builder blocks (src/components/blocks/RichText.tsx). */
+.richtext {
+  @apply text-gray-700;
+}
+.richtext :where(h1, h2, h3, h4) {
+  @apply mb-4 mt-8 font-bold text-gray-900 first:mt-0;
+}
+.richtext h1 {
+  @apply text-3xl;
+}
+.richtext h2 {
+  @apply text-2xl;
+}
+.richtext h3 {
+  @apply text-xl;
+}
+.richtext h4 {
+  @apply text-lg;
+}
+.richtext p {
+  @apply mb-4 leading-relaxed last:mb-0;
+}
+.richtext ul {
+  @apply mb-4 list-disc space-y-1 pl-6 last:mb-0;
+}
+.richtext ol {
+  @apply mb-4 list-decimal space-y-1 pl-6 last:mb-0;
+}
+.richtext a {
+  @apply text-brand underline underline-offset-2 hover:text-brand-light;
+}
+.richtext strong {
+  @apply font-semibold text-gray-900;
+}
+.richtext blockquote {
+  @apply my-4 border-l-4 border-brand/30 pl-4 italic text-gray-600;
+}
+
+/* Used on brand/dark section backgrounds (e.g. ImageContentBlock). */
+.richtext.richtext-invert {
+  @apply text-white/90;
+}
+.richtext.richtext-invert :where(h1, h2, h3, h4),
+.richtext.richtext-invert strong {
+  @apply text-white;
+}
+.richtext.richtext-invert a {
+  @apply text-white hover:text-white/80;
+}
