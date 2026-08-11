@@ -95,12 +95,86 @@ export type ImageContentBlockData = {
   background?: 'none' | 'light' | 'brand' | 'dark' | null
 }
 
+export type HeroBlockData = {
+  id?: string
+  blockType: 'hero'
+  eyebrow?: string | null
+  heading: string
+  text?: string | null
+  image?: Media | null
+  alignment?: 'left' | 'center' | null
+  buttons?: LinkField[] | null
+}
+
+export type StatItem = {
+  id?: string
+  value: string
+  label: string
+}
+
+export type StatsBlockData = {
+  id?: string
+  blockType: 'stats'
+  heading?: string | null
+  stats: StatItem[]
+  background?: 'none' | 'light' | 'brand' | null
+}
+
+export type TestimonialItem = {
+  id?: string
+  quote: string
+  authorName: string
+  authorRole?: string | null
+  authorImage?: Media | null
+}
+
+export type TestimonialsBlockData = {
+  id?: string
+  blockType: 'testimonials'
+  eyebrow?: string | null
+  heading?: string | null
+  testimonials: TestimonialItem[]
+}
+
+export type FAQItem = {
+  id?: string
+  question: string
+  answer: string
+}
+
+export type FAQBlockData = {
+  id?: string
+  blockType: 'faq'
+  eyebrow?: string | null
+  heading?: string | null
+  items: FAQItem[]
+}
+
+export type LogoItem = {
+  id?: string
+  image: Media
+  altOverride?: string | null
+  url?: string | null
+}
+
+export type LogoCloudBlockData = {
+  id?: string
+  blockType: 'logoCloud'
+  heading?: string | null
+  logos: LogoItem[]
+}
+
 export type LayoutBlock =
   | ContentBlockData
   | ImageBlockData
   | CTABlockData
   | ColumnsBlockData
   | ImageContentBlockData
+  | HeroBlockData
+  | StatsBlockData
+  | TestimonialsBlockData
+  | FAQBlockData
+  | LogoCloudBlockData
 
 export type Service = {
   id: string

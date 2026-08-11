@@ -4,6 +4,11 @@ import { ImageBlock } from './ImageBlock/config'
 import { CTABlock } from './CTA/config'
 import { ColumnsBlock } from './Columns/config'
 import { ImageContentBlock } from './ImageContent/config'
+import { HeroBlock } from './Hero/config'
+import { StatsBlock } from './Stats/config'
+import { TestimonialsBlock } from './Testimonials/config'
+import { FAQBlock } from './FAQ/config'
+import { LogoCloudBlock } from './LogoCloud/config'
 
 /**
  * Every block registered here becomes selectable in any `layout` blocks field
@@ -12,11 +17,27 @@ import { ImageContentBlock } from './ImageContent/config'
  * and the renderer's `blockType` case in `PageBuilder` — no page config needs to change.
  */
 export const layoutBlocks: Block[] = [
+  HeroBlock,
   ContentBlock,
   ImageBlock,
   CTABlock,
   ColumnsBlock,
   ImageContentBlock,
+  StatsBlock,
+  TestimonialsBlock,
+  FAQBlock,
+  LogoCloudBlock,
 ]
 
-export { ContentBlock, ImageBlock, CTABlock, ColumnsBlock, ImageContentBlock }
+export {
+  ContentBlock,
+  ImageBlock,
+  CTABlock,
+  ColumnsBlock,
+  ImageContentBlock,
+  HeroBlock,
+  StatsBlock,
+  TestimonialsBlock,
+  FAQBlock,
+  LogoCloudBlock,
+}
