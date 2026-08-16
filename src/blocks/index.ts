@@ -9,6 +9,15 @@ import { StatsBlock } from './Stats/config'
 import { TestimonialsBlock } from './Testimonials/config'
 import { FAQBlock } from './FAQ/config'
 import { LogoCloudBlock } from './LogoCloud/config'
+import { HomeHeroBlock } from './HomeHero/config'
+import { ProofBarBlock } from './ProofBar/config'
+import { SegmentCardsBlock } from './SegmentCards/config'
+import { TransformSplitBlock } from './TransformSplit/config'
+import { ServiceMarqueeBlock } from './ServiceMarquee/config'
+import { AIWorkflowPanelBlock } from './AIWorkflowPanel/config'
+import { VideoTestimonialsBlock } from './VideoTestimonials/config'
+import { CaseStudySpotlightBlock } from './CaseStudySpotlight/config'
+import { InsightsGridBlock } from './InsightsGrid/config'
 
 /**
  * Every block registered here becomes selectable in any `layout` blocks field
@@ -27,6 +36,15 @@ export const layoutBlocks: Block[] = [
   TestimonialsBlock,
   FAQBlock,
   LogoCloudBlock,
+  HomeHeroBlock,
+  ProofBarBlock,
+  SegmentCardsBlock,
+  TransformSplitBlock,
+  ServiceMarqueeBlock,
+  AIWorkflowPanelBlock,
+  VideoTestimonialsBlock,
+  CaseStudySpotlightBlock,
+  InsightsGridBlock,
 ]
 
 export {
@@ -40,4 +58,13 @@ export {
   TestimonialsBlock,
   FAQBlock,
   LogoCloudBlock,
+  HomeHeroBlock,
+  ProofBarBlock,
+  SegmentCardsBlock,
+  TransformSplitBlock,
+  ServiceMarqueeBlock,
+  AIWorkflowPanelBlock,
+  VideoTestimonialsBlock,
+  CaseStudySpotlightBlock,
+  InsightsGridBlock,
 }

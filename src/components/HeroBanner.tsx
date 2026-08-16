@@ -10,7 +10,7 @@ type HeroBannerProps = {
 
 export default function HeroBanner({ title, imageUrl, children, align = 'center' }: HeroBannerProps) {
   return (
-    <section className="relative flex h-[420px] w-full items-center overflow-hidden bg-brand-dark">
+    <section className="relative flex h-[420px] w-full items-center overflow-hidden bg-brand-dark pt-24">
       {imageUrl && (
         <Image
           src={imageUrl}

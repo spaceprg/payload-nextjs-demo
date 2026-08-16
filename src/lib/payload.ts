@@ -9,6 +9,7 @@ export type Media = {
   id: string
   alt: string
   url?: string
+  mimeType?: string
   sizes?: {
     thumbnail?: { url?: string }
     card?: { url?: string }
@@ -164,6 +165,164 @@ export type LogoCloudBlockData = {
   logos: LogoItem[]
 }
 
+// --- Homepage (GO MO design) blocks ------------------------------------
+
+export type HomeHeroBlockData = {
+  id?: string
+  blockType: 'homeHero'
+  eyebrow?: string | null
+  heading: string
+  highlight?: string | null
+  subtext?: string | null
+  buttonLabel?: string | null
+  buttonHref?: string | null
+  scrollLabel?: string | null
+  backgroundType?: 'image' | 'video' | null
+  backgroundImage?: Media | null
+  backgroundVideo?: Media | null
+}
+
+export type ProofStatItem = {
+  id?: string
+  value: string
+  description: string
+  color?: 'yellow' | 'rose' | 'cyan' | 'purple' | null
+}
+
+export type ProofBarBlockData = {
+  id?: string
+  blockType: 'proofBar'
+  eyebrow?: string | null
+  heading: string
+  highlight?: string | null
+  logos?: { id?: string; image: Media }[] | null
+  caption?: string | null
+  captionSubtext?: string | null
+  stats: ProofStatItem[]
+}
+
+export type SegmentCardItem = {
+  id?: string
+  title: string
+  description: string
+  image?: Media | null
+  buttonLabel?: string | null
+  buttonHref?: string | null
+}
+
+export type SegmentCardsBlockData = {
+  id?: string
+  blockType: 'segmentCards'
+  eyebrow?: string | null
+  heading: string
+  highlight?: string | null
+  subtext?: string | null
+  cards: SegmentCardItem[]
+}
+
+export type TransformSplitBlockData = {
+  id?: string
+  blockType: 'transformSplit'
+  eyebrow?: string | null
+  heading: string
+  highlight?: string | null
+  paragraph?: string | null
+  buttonLabel?: string | null
+  buttonHref?: string | null
+  galleryImages?: { id?: string; image: Media }[] | null
+}
+
+export type ServiceMarqueeBlockData = {
+  id?: string
+  blockType: 'serviceMarquee'
+  eyebrow?: string | null
+  heading: string
+  highlight?: string | null
+  subtext?: string | null
+  limit?: number | null
+}
+
+export type AIWorkflowImprovement = {
+  id?: string
+  title: string
+  description?: string | null
+}
+
+export type AIWorkflowTag = {
+  id?: string
+  label: string
+}
+
+export type AIWorkflowPanelBlockData = {
+  id?: string
+  blockType: 'aiWorkflowPanel'
+  eyebrow?: string | null
+  heading: string
+  highlight?: string | null
+  paragraph?: string | null
+  listLabel?: string | null
+  improvements?: AIWorkflowImprovement[] | null
+  tags?: AIWorkflowTag[] | null
+  buttonLabel?: string | null
+  buttonHref?: string | null
+  backgroundImage?: Media | null
+}
+
+export type VideoSpeaker = {
+  id?: string
+  posterImage?: Media | null
+  name: string
+  role: string
+}
+
+export type VideoTestimonialsBlockData = {
+  id?: string
+  blockType: 'videoTestimonials'
+  eyebrow?: string | null
+  heading: string
+  highlight?: string | null
+  mainSpeaker?: VideoSpeaker | null
+  testimonials: VideoSpeaker[]
+}
+
+export type CaseStudySpotlightBlockData = {
+  id?: string
+  blockType: 'caseStudySpotlight'
+  eyebrow?: string | null
+  heading: string
+  highlight?: string | null
+  cardText?: string | null
+  stat1Value?: string | null
+  stat1Label?: string | null
+  stat2Value?: string | null
+  stat2Label?: string | null
+  buttonLabel?: string | null
+  buttonHref?: string | null
+  backgroundImage?: Media | null
+}
+
+export type InsightCardItem = {
+  id?: string
+  category: string
+  date: string
+  readTime?: string | null
+  title: string
+  image?: Media | null
+  href?: string | null
+}
+
+export type InsightsGridBlockData = {
+  id?: string
+  blockType: 'insightsGrid'
+  eyebrow?: string | null
+  heading: string
+  highlight?: string | null
+  subtext?: string | null
+  buttonLabel?: string | null
+  buttonHref?: string | null
+  cards: InsightCardItem[]
+}
+
 export type LayoutBlock =
   | ContentBlockData
   | ImageBlockData
@@ -175,6 +334,15 @@ export type LayoutBlock =
   | TestimonialsBlockData
   | FAQBlockData
   | LogoCloudBlockData
+  | HomeHeroBlockData
+  | ProofBarBlockData
+  | SegmentCardsBlockData
+  | TransformSplitBlockData
+  | ServiceMarqueeBlockData
+  | AIWorkflowPanelBlockData
+  | VideoTestimonialsBlockData
+  | CaseStudySpotlightBlockData
+  | InsightsGridBlockData
 
 export type Service = {
   id: string
@@ -191,6 +359,11 @@ export type AboutGlobal = {
   title: string
   heroImage?: Media
   content?: unknown
+  layout?: LayoutBlock[]
+  seo?: Seo
+}
+
+export type HomeGlobal = {
   layout?: LayoutBlock[]
   seo?: Seo
 }
@@ -251,6 +424,17 @@ export async function getAbout(): Promise<AboutGlobal | null> {
     return result as AboutGlobal
   } catch (error) {
     console.error('getAbout failed:', error)
+    return null
+  }
+}
+
+export async function getHome(): Promise<HomeGlobal | null> {
+  try {
+    const payload = await getPayload({ config })
+    const result = await payload.findGlobal({ slug: 'home' })
+    return result as HomeGlobal
+  } catch (error) {
+    console.error('getHome failed:', error)
     return null
   }
 }

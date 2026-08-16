@@ -20,7 +20,7 @@ export const Media: CollectionConfig = {
       { name: 'hero', width: 1920, height: 1080, position: 'centre' },
     ],
     adminThumbnail: 'thumbnail',
-    mimeTypes: ['image/*'],
+    mimeTypes: ['image/*', 'video/mp4'],
   },
 }
 

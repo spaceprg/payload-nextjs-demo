@@ -9,6 +9,15 @@ import StatsBlock from './StatsBlock'
 import TestimonialsBlock from './TestimonialsBlock'
 import FAQBlock from './FAQBlock'
 import LogoCloudBlock from './LogoCloudBlock'
+import HomeHeroBlock from './HomeHeroBlock'
+import ProofBarBlock from './ProofBarBlock'
+import SegmentCardsBlock from './SegmentCardsBlock'
+import TransformSplitBlock from './TransformSplitBlock'
+import ServiceMarqueeBlock from './ServiceMarqueeBlock'
+import AIWorkflowPanelBlock from './AIWorkflowPanelBlock'
+import VideoTestimonialsBlock from './VideoTestimonialsBlock'
+import CaseStudySpotlightBlock from './CaseStudySpotlightBlock'
+import InsightsGridBlock from './InsightsGridBlock'
 
 /**
  * Renders a page's `layout` blocks field. To support a new section type, add its config to
@@ -43,6 +52,24 @@ export default function PageBuilder({ blocks }: { blocks?: LayoutBlock[] | null 
             return <FAQBlock key={key} {...block} />
           case 'logoCloud':
             return <LogoCloudBlock key={key} {...block} />
+          case 'homeHero':
+            return <HomeHeroBlock key={key} {...block} />
+          case 'proofBar':
+            return <ProofBarBlock key={key} {...block} />
+          case 'segmentCards':
+            return <SegmentCardsBlock key={key} {...block} />
+          case 'transformSplit':
+            return <TransformSplitBlock key={key} {...block} />
+          case 'serviceMarquee':
+            return <ServiceMarqueeBlock key={key} {...block} />
+          case 'aiWorkflowPanel':
+            return <AIWorkflowPanelBlock key={key} {...block} />
+          case 'videoTestimonials':
+            return <VideoTestimonialsBlock key={key} {...block} />
+          case 'caseStudySpotlight':
+            return <CaseStudySpotlightBlock key={key} {...block} />
+          case 'insightsGrid':
+            return <InsightsGridBlock key={key} {...block} />
           default:
             return null
         }

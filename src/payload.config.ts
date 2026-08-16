@@ -11,6 +11,7 @@ import { Services } from './collections/Services'
 import { Users } from './collections/Users'
 import { About } from './globals/About'
 import { Contact } from './globals/Contact'
+import { Home } from './globals/Home'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -21,7 +22,7 @@ export default buildConfig({
   },
   editor: lexicalEditor(),
   collections: [Users, Media, Services],
-  globals: [About, Contact],
+  globals: [About, Contact, Home],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

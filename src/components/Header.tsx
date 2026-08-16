@@ -1,44 +1,63 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 const NAV_LINKS = [
-  { label: 'Home', href: '/' },
+  { label: 'Solutions', href: '/services' },
   { label: 'Services', href: '/services' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'GEO', href: '/services' },
+  { label: 'Insights', href: '/' },
+  { label: 'Case', href: '/' },
+  { label: 'About Us', href: '/about' },
 ]
+
+function ChevronDown() {
+  return (
+    <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden>
+      <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
 
 export default function Header() {
   const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
 
-  const isActive = (href: string) =>
-    href === '/' ? pathname === '/' : pathname.startsWith(href)
+  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex max-w-content items-center justify-between px-6 py-4">
-        <Link href="/" className="text-xl font-bold tracking-tight text-brand">
-          Demo Company
-        </Link>
+    <header className="absolute inset-x-0 top-0 z-50 bg-ink/80 backdrop-blur">
+      <div className="mx-auto flex max-w-content items-center justify-between gap-4 px-6 py-4">
+        <div className="flex items-center gap-8 rounded-full bg-white/20 py-3 pl-8 pr-6">
+          <Link href="/" className="relative h-6 w-[94px] shrink-0">
+            <Image src="/images/home/nav/logo.svg" alt="GO MO Group" fill className="object-contain object-left" />
+          </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden items-center gap-8 md:flex">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`text-sm font-medium transition-colors hover:text-brand ${
-                isActive(link.href) ? 'text-brand' : 'text-gray-600'
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+          <nav className="hidden items-center gap-7 lg:flex">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className={`flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-white transition hover:text-mint ${
+                  isActive(link.href) ? 'text-mint' : ''
+                }`}
+              >
+                {link.label}
+                {link.label !== 'Insights' && <ChevronDown />}
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        <Link
+          href="/contact"
+          className="hidden shrink-0 rounded-full bg-gomoblue px-9 py-3.5 font-serif text-base italic text-white transition hover:bg-gomoblue/90 lg:inline-flex"
+        >
+          Contact Us
+        </Link>
 
         {/* Mobile hamburger */}
         <button
@@ -46,29 +65,36 @@ export default function Header() {
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((open) => !open)}
-          className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 md:hidden"
+          className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 lg:hidden"
         >
-          <span className={`h-0.5 w-6 bg-gray-800 transition ${menuOpen ? 'translate-y-2 rotate-45' : ''}`} />
-          <span className={`h-0.5 w-6 bg-gray-800 transition ${menuOpen ? 'opacity-0' : ''}`} />
-          <span className={`h-0.5 w-6 bg-gray-800 transition ${menuOpen ? '-translate-y-2 -rotate-45' : ''}`} />
+          <span className={`h-0.5 w-6 bg-white transition ${menuOpen ? 'translate-y-2 rotate-45' : ''}`} />
+          <span className={`h-0.5 w-6 bg-white transition ${menuOpen ? 'opacity-0' : ''}`} />
+          <span className={`h-0.5 w-6 bg-white transition ${menuOpen ? '-translate-y-2 -rotate-45' : ''}`} />
         </button>
       </div>
 
       {/* Mobile nav panel */}
       {menuOpen && (
-        <nav className="flex flex-col gap-1 border-t border-gray-200 bg-white px-6 py-4 md:hidden">
+        <nav className="flex flex-col gap-1 border-t border-white/10 bg-ink px-6 py-4 lg:hidden">
           {NAV_LINKS.map((link) => (
             <Link
-              key={link.href}
+              key={link.label}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className={`rounded-md px-3 py-2 text-sm font-medium ${
-                isActive(link.href) ? 'bg-brand/10 text-brand' : 'text-gray-600 hover:bg-gray-50'
+              className={`rounded-md px-3 py-2 text-sm font-medium uppercase tracking-wide ${
+                isActive(link.href) ? 'bg-white/10 text-mint' : 'text-white hover:bg-white/5'
               }`}
             >
               {link.label}
             </Link>
           ))}
+          <Link
+            href="/contact"
+            onClick={() => setMenuOpen(false)}
+            className="mt-3 inline-flex justify-center rounded-full bg-gomoblue px-6 py-3 font-serif text-sm italic text-white"
+          >
+            Contact Us
+          </Link>
         </nav>
       )}
     </header>
