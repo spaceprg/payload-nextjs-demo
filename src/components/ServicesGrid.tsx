@@ -4,7 +4,7 @@ import ServiceCard from './ServiceCard'
 export default function ServicesGrid({ services }: { services: Service[] }) {
   if (services.length === 0) {
     return (
-      <p className="py-12 text-center text-gray-500">
+      <p className="py-12 text-center text-white/60">
         No services published yet. Add some in the Payload admin.
       </p>
     )

@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!service) return {}
 
   return {
-    title: service.seo?.metaTitle || `${service.title} | Demo Company`,
+    title: service.seo?.metaTitle || `${service.title} | GO MO Group`,
     description: service.seo?.metaDescription || service.shortDescription,
   }
 }
@@ -42,7 +42,7 @@ export default async function ServiceDetailPage({ params }: Props) {
       ) : (
         <>
           <ContentSection>
-            <p className="text-lg text-gray-700">{service.shortDescription}</p>
+            <p className="text-lg text-white/80">{service.shortDescription}</p>
             <RichText data={service.content as SerializedEditorState | undefined} className="mt-6" />
           </ContentSection>
           <CTASection title="Interested in this service?" />

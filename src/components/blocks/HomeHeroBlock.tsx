@@ -71,17 +71,25 @@ export default function HomeHeroBlock({
           color="pink"
           className="max-w-4xl text-5xl md:text-6xl lg:text-[80px] lg:leading-[1.1]"
         />
-        {subtext && <p className="mt-6 max-w-xl text-base leading-6 text-white/90">{subtext}</p>}
-        {buttonLabel && buttonHref && (
-          <div className="mt-10">
-            <HomeButton label={buttonLabel} href={buttonHref} variant="gradient" />
+        {(subtext || (buttonLabel && buttonHref)) && (
+          <div className="mt-8 flex md:justify-end">
+            <div className="md:w-[380px]">
+              {subtext && <p className="text-base leading-6 text-white/90">{subtext}</p>}
+              {buttonLabel && buttonHref && (
+                <div className="mt-6">
+                  <HomeButton label={buttonLabel} href={buttonHref} variant="gradient" />
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>
 
       {scrollLabel && (
         <div className="relative mt-20 flex flex-col items-center gap-3 text-white/80">
-          <span className="h-7 w-4 rounded-full border border-white/40" aria-hidden />
+          <span className="relative flex h-7 w-4 justify-center rounded-full border border-white/40 pt-1.5" aria-hidden>
+            <span className="size-1.5 animate-scroll-dot rounded-full bg-white" />
+          </span>
           <p className="text-xs font-medium uppercase tracking-[1px]">{scrollLabel}</p>
         </div>
       )}

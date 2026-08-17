@@ -14,6 +14,7 @@ export default function ProofBarBlock({
   eyebrow,
   heading,
   highlight,
+  backgroundImage,
   logos,
   caption,
   captionSubtext,
@@ -22,8 +23,20 @@ export default function ProofBarBlock({
   if (!heading) return null
 
   return (
-    <section className="bg-ink py-16 md:py-20">
-      <div className="mx-auto max-w-content px-6">
+    <section className="relative overflow-hidden bg-ink py-16 md:py-20">
+      {backgroundImage ? (
+        <Image src={mediaUrl(backgroundImage)} alt="" fill className="object-cover opacity-40" />
+      ) : (
+        <div
+          className="pointer-events-none absolute inset-y-0 left-0 w-1/2 opacity-60 blur-3xl"
+          style={{
+            backgroundImage: 'linear-gradient(226deg, rgba(255,40,188,0.55) 22%, rgba(0,0,0,0) 73%)',
+          }}
+          aria-hidden
+        />
+      )}
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/70 to-ink" />
+      <div className="relative mx-auto max-w-content px-6">
         {eyebrow && <Eyebrow label={eyebrow} />}
         <HighlightedHeading
           heading={heading}

@@ -12,15 +12,14 @@ export function resolveLinkHref(link: LinkField): string {
 }
 
 const STYLES = {
-  primary: 'rounded-full bg-brand px-8 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark',
+  primary: 'rounded-full bg-gomoblue px-8 py-3 font-serif text-sm italic text-white transition hover:bg-gomoblue/90',
   secondary:
-    'rounded-full border border-brand px-8 py-3 text-sm font-semibold text-brand transition hover:bg-brand hover:text-white',
-  // Used on brand/dark-colored section backgrounds, where the default styles above
-  // would blend into the background.
+    'rounded-full border border-white/40 px-8 py-3 text-sm font-semibold text-white transition hover:bg-white/10',
+  // Used for emphasis on hero/CTA-style sections.
   primaryInverted:
-    'rounded-full bg-white px-8 py-3 text-sm font-semibold text-brand transition hover:bg-gray-100',
+    'rounded-full bg-gradient-to-r from-[#8f38f8] via-[#268de5] to-[#2804de] px-8 py-3 font-serif text-sm italic text-white transition hover:opacity-90',
   secondaryInverted:
-    'rounded-full border border-white px-8 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-brand',
+    'rounded-full border border-white/60 px-8 py-3 text-sm font-semibold text-white transition hover:bg-white/10',
 }
 
 export default function LinkButton({

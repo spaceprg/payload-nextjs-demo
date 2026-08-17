@@ -6,12 +6,13 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Rich text rendering for page-builder blocks (src/components/blocks/RichText.tsx). */
+/* Rich text rendering for page-builder blocks (src/components/blocks/RichText.tsx).
+   The whole site runs on the dark GO MO theme, so this is white-on-dark by default. */
 .richtext {
-  @apply text-gray-700;
+  @apply text-white/80;
 }
 .richtext :where(h1, h2, h3, h4) {
-  @apply mb-4 mt-8 font-bold text-gray-900 first:mt-0;
+  @apply mb-4 mt-8 font-medium text-white first:mt-0;
 }
 .richtext h1 {
   @apply text-3xl;
@@ -35,23 +36,17 @@ html {
   @apply mb-4 list-decimal space-y-1 pl-6 last:mb-0;
 }
 .richtext a {
-  @apply text-brand underline underline-offset-2 hover:text-brand-light;
+  @apply text-mint underline underline-offset-2 hover:text-mint/80;
 }
 .richtext strong {
-  @apply font-semibold text-gray-900;
+  @apply font-semibold text-white;
 }
 .richtext blockquote {
-  @apply my-4 border-l-4 border-brand/30 pl-4 italic text-gray-600;
+  @apply my-4 border-l-4 border-purple/40 pl-4 italic text-white/70;
 }
 
-/* Used on brand/dark section backgrounds (e.g. ImageContentBlock). */
+/* Kept as an alias so existing conditional usage (e.g. ImageContentBlock) keeps working —
+   every surface is dark now, so there's no separate "inverted" palette to switch to. */
 .richtext.richtext-invert {
-  @apply text-white/90;
-}
-.richtext.richtext-invert :where(h1, h2, h3, h4),
-.richtext.richtext-invert strong {
-  @apply text-white;
-}
-.richtext.richtext-invert a {
-  @apply text-white hover:text-white/80;
+  @apply text-white/80;
 }

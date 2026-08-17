@@ -10,12 +10,12 @@ export default function CTASection({
   href?: string
 }) {
   return (
-    <section className="bg-brand">
-      <div className="mx-auto flex max-w-content flex-col items-center gap-6 px-6 py-16 text-center">
-        <h2 className="text-3xl font-bold text-white">{title}</h2>
+    <section className="bg-ink">
+      <div className="mx-auto flex max-w-content flex-col items-center gap-6 border-t border-white/10 px-6 py-16 text-center">
+        <h2 className="text-3xl font-medium text-white">{title}</h2>
         <Link
           href={href}
-          className="rounded-full bg-white px-8 py-3 text-sm font-semibold text-brand transition hover:bg-gray-100"
+          className="rounded-full bg-gradient-to-r from-[#8f38f8] via-[#268de5] to-[#2804de] px-9 py-3.5 font-serif text-base italic text-white transition hover:opacity-90"
         >
           {buttonLabel}
         </Link>

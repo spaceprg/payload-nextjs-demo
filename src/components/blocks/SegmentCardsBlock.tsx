@@ -38,12 +38,12 @@ export default function SegmentCardsBlock({
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
 
-              <div className="relative flex flex-1 flex-col justify-end gap-2 text-white">
+              <div className="relative flex flex-1 flex-col justify-start gap-2 text-white">
                 <h3 className="text-2xl font-semibold leading-tight">{card.title}</h3>
                 <p className="text-base leading-6">{card.description}</p>
               </div>
               {card.buttonLabel && card.buttonHref && (
-                <div className="relative mt-6">
+                <div className="relative mt-6 shrink-0">
                   <HomeButton label={card.buttonLabel} href={card.buttonHref} variant="solid" className="px-8 py-3.5 text-sm" />
                 </div>
               )}

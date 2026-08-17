@@ -10,14 +10,14 @@ import { getAbout, mediaUrl } from '@/lib/payload'
 export async function generateMetadata(): Promise<Metadata> {
   const about = await getAbout()
   return {
-    title: about?.seo?.metaTitle || 'About | Demo Company',
-    description: about?.seo?.metaDescription || 'Learn more about Demo Company.',
+    title: about?.seo?.metaTitle || 'About | GO MO Group',
+    description: about?.seo?.metaDescription || 'Learn more about GO MO Group.',
   }
 }
 
 export default async function AboutPage() {
   const about = await getAbout()
-  const title = about?.title || 'About Demo Digital Agency'
+  const title = about?.title || 'About GO MO Group'
   const hasLayout = about?.layout && about.layout.length > 0
 
   return (

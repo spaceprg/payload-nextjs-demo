@@ -10,7 +10,7 @@ export default function HeroBlock({ eyebrow, heading, text, image, alignment = '
   const hasImage = Boolean(image)
 
   return (
-    <section className="relative overflow-hidden bg-brand-dark">
+    <section className="relative overflow-hidden bg-ink">
       {hasImage && (
         <>
           <Image
@@ -18,9 +18,9 @@ export default function HeroBlock({ eyebrow, heading, text, image, alignment = '
             alt={image?.alt || ''}
             fill
             priority
-            className="object-cover"
+            className="object-cover opacity-60"
           />
-          <div className="absolute inset-0 bg-brand-dark/70" />
+          <div className="absolute inset-0 bg-ink/70" />
         </>
       )}
       <div
@@ -29,10 +29,10 @@ export default function HeroBlock({ eyebrow, heading, text, image, alignment = '
         }`}
       >
         {eyebrow && (
-          <p className="text-sm font-semibold uppercase tracking-wide text-white/80">{eyebrow}</p>
+          <p className="text-sm font-semibold uppercase tracking-wide text-mint">{eyebrow}</p>
         )}
-        <h1 className="max-w-3xl text-4xl font-bold text-white md:text-5xl">{heading}</h1>
-        {text && <p className="max-w-2xl text-lg text-white/90">{text}</p>}
+        <h1 className="max-w-3xl text-4xl font-medium text-white md:text-5xl">{heading}</h1>
+        {text && <p className="max-w-2xl text-lg text-white/80">{text}</p>}
         <CTAButtons buttons={buttons} align={isCentered ? 'center' : 'left'} invert />
       </div>
     </section>

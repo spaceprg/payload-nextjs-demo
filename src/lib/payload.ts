@@ -1,21 +1,14 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { mediaUrl } from './media'
+import type { Media } from './media'
+
+export { mediaUrl }
+export type { Media }
 
 // Types matching the collections/globals defined in payload.config.ts.
 // Run `npm run generate:types` after your first schema push to replace
 // these with Payload's auto-generated types from payload-types.ts.
-
-export type Media = {
-  id: string
-  alt: string
-  url?: string
-  mimeType?: string
-  sizes?: {
-    thumbnail?: { url?: string }
-    card?: { url?: string }
-    hero?: { url?: string }
-  }
-}
 
 export type Seo = {
   metaTitle?: string
@@ -195,6 +188,7 @@ export type ProofBarBlockData = {
   eyebrow?: string | null
   heading: string
   highlight?: string | null
+  backgroundImage?: Media | null
   logos?: { id?: string; image: Media }[] | null
   caption?: string | null
   captionSubtext?: string | null
@@ -273,6 +267,7 @@ export type VideoSpeaker = {
   posterImage?: Media | null
   name: string
   role: string
+  youtubeUrl?: string | null
 }
 
 export type VideoTestimonialsBlockData = {
@@ -374,6 +369,7 @@ export type ContactGlobal = {
   email: string
   phone?: string
   address?: string
+  notificationEmail?: string
   content?: unknown
   seo?: Seo
 }
@@ -448,11 +444,4 @@ export async function getContact(): Promise<ContactGlobal | null> {
     console.error('getContact failed:', error)
     return null
   }
-}
-
-/** Resolve a Payload media object to an absolute-enough URL for <Image>. */
-export function mediaUrl(media?: Media, size?: 'thumbnail' | 'card' | 'hero'): string {
-  if (!media) return '/placeholder.svg'
-  if (size && media.sizes?.[size]?.url) return media.sizes[size]!.url as string
-  return media.url || '/placeholder.svg'
 }

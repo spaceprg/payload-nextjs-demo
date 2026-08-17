@@ -1,4 +1,5 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
 import path from 'path'
@@ -6,6 +7,7 @@ import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import { buildConfig } from 'payload'
 
+import { FormSubmissions } from './collections/FormSubmissions'
 import { Media } from './collections/Media'
 import { Services } from './collections/Services'
 import { Users } from './collections/Users'
@@ -21,7 +23,7 @@ export default buildConfig({
     user: Users.slug,
   },
   editor: lexicalEditor(),
-  collections: [Users, Media, Services],
+  collections: [Users, Media, Services, FormSubmissions],
   globals: [About, Contact, Home],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -31,6 +33,24 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || '',
     },
+  }),
+  // Falls back to a live Ethereal test inbox (logged to the server console) when
+  // SMTP_HOST isn't set, so contact-form emails work out of the box in dev.
+  email: nodemailerAdapter({
+    defaultFromAddress: process.env.EMAIL_FROM || 'no-reply@gomogroup.com',
+    defaultFromName: 'GO MO Group',
+    ...(process.env.SMTP_HOST
+      ? {
+          transportOptions: {
+            host: process.env.SMTP_HOST,
+            port: Number(process.env.SMTP_PORT) || 587,
+            secure: process.env.SMTP_SECURE === 'true',
+            auth: process.env.SMTP_USER
+              ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+              : undefined,
+          },
+        }
+      : {}),
   }),
   plugins: [
     s3Storage({

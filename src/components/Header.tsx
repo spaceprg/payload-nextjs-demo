@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const NAV_LINKS = [
   { label: 'Solutions', href: '/services' },
@@ -25,11 +25,23 @@ function ChevronDown() {
 export default function Header() {
   const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50 bg-ink/80 backdrop-blur">
+    <header
+      className={`inset-x-0 top-0 z-50 transition-colors duration-150 ease-out ${
+        scrolled ? 'fixed bg-ink/80 backdrop-blur' : 'absolute bg-transparent'
+      }`}
+    >
       <div className="mx-auto flex max-w-content items-center justify-between gap-4 px-6 py-4">
         <div className="flex items-center gap-8 rounded-full bg-white/20 py-3 pl-8 pr-6">
           <Link href="/" className="relative h-6 w-[94px] shrink-0">

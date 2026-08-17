@@ -34,9 +34,15 @@ const config: Config = {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
         },
+        'scroll-dot': {
+          '0%': { transform: 'translateY(0)', opacity: '1' },
+          '70%': { opacity: '1' },
+          '100%': { transform: 'translateY(10px)', opacity: '0' },
+        },
       },
       animation: {
         marquee: 'marquee 40s linear infinite',
+        'scroll-dot': 'scroll-dot 1.4s ease-in-out infinite',
       },
     },
   },

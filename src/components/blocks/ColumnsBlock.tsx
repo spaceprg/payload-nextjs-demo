@@ -27,11 +27,11 @@ function Column({ column }: { column: ColumnItem }) {
   return (
     <div className="flex flex-col gap-4">
       {image && (
-        <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-gray-100">
+        <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-white/5">
           <Image src={mediaUrl(image)} alt={altOverride || image.alt || ''} fill className="object-cover" />
         </div>
       )}
-      {heading && <h3 className="text-xl font-bold text-gray-900">{heading}</h3>}
+      {heading && <h3 className="text-xl font-medium text-white">{heading}</h3>}
       <RichText data={richText as SerializedEditorState | undefined} />
       <CTAButtons buttons={buttons} />
     </div>
@@ -44,13 +44,15 @@ export default function ColumnsBlock({ layout, columns }: ColumnsBlockData) {
   const spans = COLUMN_SPAN[layout] ?? []
 
   return (
-    <section className="mx-auto max-w-content px-6 py-16">
-      <div className={`grid grid-cols-1 gap-10 ${GRID_CLASS[layout] ?? 'md:grid-cols-2'}`}>
-        {columns.map((column, index) => (
-          <div key={column.id ?? index} className={spans[index] ?? ''}>
-            <Column column={column} />
-          </div>
-        ))}
+    <section className="bg-ink">
+      <div className="mx-auto max-w-content px-6 py-16">
+        <div className={`grid grid-cols-1 gap-10 ${GRID_CLASS[layout] ?? 'md:grid-cols-2'}`}>
+          {columns.map((column, index) => (
+            <div key={column.id ?? index} className={spans[index] ?? ''}>
+              <Column column={column} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )

@@ -27,12 +27,14 @@ export default function LogoCloudBlock({ heading, logos }: LogoCloudBlockData) {
   if (!logos || logos.length === 0) return null
 
   return (
-    <section className="mx-auto max-w-content px-6 py-16">
-      {heading && <p className="mb-8 text-center text-sm font-semibold uppercase tracking-wide text-gray-500">{heading}</p>}
-      <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
-        {logos.map((logo, index) => (
-          <Logo key={logo.id ?? index} logo={logo} />
-        ))}
+    <section className="bg-ink">
+      <div className="mx-auto max-w-content px-6 py-16">
+        {heading && <p className="mb-8 text-center text-sm font-semibold uppercase tracking-wide text-white/60">{heading}</p>}
+        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
+          {logos.map((logo, index) => (
+            <Logo key={logo.id ?? index} logo={logo} />
+          ))}
+        </div>
       </div>
     </section>
   )

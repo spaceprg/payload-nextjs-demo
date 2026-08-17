@@ -1,8 +1,17 @@
 import Image from 'next/image'
 import HomeButton from '@/components/home/HomeButton'
+import AIWorkflowAccordion from './AIWorkflowAccordion'
 import { Eyebrow, HighlightedHeading } from '@/components/home/SectionHeading'
 import { mediaUrl } from '@/lib/payload'
 import type { AIWorkflowPanelBlockData } from '@/lib/payload'
+
+const BULLET_COLORS = ['bg-mint', 'bg-purple', 'bg-lime', 'bg-cyan', 'bg-pink', 'bg-rose', 'bg-turquoise']
+
+/** Deterministic pseudo-random pick so the color matches between server and client render. */
+function bulletColorFor(text: string, index: number) {
+  const hash = Array.from(text).reduce((sum, char) => sum + char.charCodeAt(0), 0)
+  return BULLET_COLORS[(hash + index) % BULLET_COLORS.length]
+}
 
 export default function AIWorkflowPanelBlock({
   eyebrow,
@@ -17,6 +26,8 @@ export default function AIWorkflowPanelBlock({
   backgroundImage,
 }: AIWorkflowPanelBlockData) {
   if (!heading) return null
+
+  const track = tags && tags.length > 0 ? [...tags, ...tags] : []
 
   return (
     <section className="bg-ink py-16 md:py-24">
@@ -34,7 +45,7 @@ export default function AIWorkflowPanelBlock({
           />
 
           <div className="relative flex flex-col gap-10 md:flex-row md:justify-between">
-            <div className="max-w-lg">
+            <div className="max-w-sm shrink-0">
               {eyebrow && <Eyebrow label={eyebrow} />}
               <HighlightedHeading
                 heading={heading}
@@ -42,7 +53,6 @@ export default function AIWorkflowPanelBlock({
                 color="mint"
                 className="mt-4 text-5xl md:text-6xl"
               />
-              {paragraph && <p className="mt-6 max-w-md text-base leading-6 text-white">{paragraph}</p>}
               {buttonLabel && buttonHref && (
                 <div className="mt-8">
                   <HomeButton label={buttonLabel} href={buttonHref} variant="gradient" />
@@ -50,40 +60,27 @@ export default function AIWorkflowPanelBlock({
               )}
             </div>
 
-            {improvements && improvements.length > 0 && (
-              <div className="w-full max-w-md">
-                {listLabel && (
-                  <p className="mb-4 text-sm font-semibold uppercase tracking-[1.12px] text-lime">{listLabel}</p>
-                )}
-                <ul className="flex flex-col">
-                  {improvements.map((item, index) => (
-                    <li key={item.id ?? index} className="border-b border-white/40 py-4 last:border-b-0">
-                      <div className="flex items-center justify-between">
-                        <span className="text-2xl font-semibold text-white">{item.title}</span>
-                        <span className="relative block h-3 w-[18px] shrink-0 opacity-70">
-                          <Image src="/images/home/icons/chevron.svg" alt="" fill />
-                        </span>
-                      </div>
-                      {item.description && (
-                        <p className="mt-2 text-base leading-6 text-white">{item.description}</p>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            <div className="w-full max-w-md">
+              {paragraph && <p className="mb-8 text-base leading-6 text-white">{paragraph}</p>}
+              {improvements && improvements.length > 0 && (
+                <AIWorkflowAccordion listLabel={listLabel} improvements={improvements} />
+              )}
+            </div>
           </div>
 
-          {tags && tags.length > 0 && (
-            <div className="relative mt-14 flex flex-wrap gap-4">
-              {tags.map((tag, index) => (
-                <span
-                  key={tag.id ?? index}
-                  className="rounded-full border border-white/15 px-6 py-4 font-serif text-sm italic text-white"
-                >
-                  {tag.label}
-                </span>
-              ))}
+          {track.length > 0 && (
+            <div className="relative mt-14 overflow-hidden">
+              <div className="flex w-max animate-marquee gap-4 hover:[animation-play-state:paused]">
+                {track.map((tag, index) => (
+                  <span
+                    key={`${tag.id ?? tag.label}-${index}`}
+                    className="flex shrink-0 items-center gap-2.5 rounded-full border border-white/15 px-6 py-4 font-serif text-sm italic text-white"
+                  >
+                    <span className={`size-1.5 shrink-0 rounded-full ${bulletColorFor(tag.label, index)}`} aria-hidden />
+                    {tag.label}
+                  </span>
+                ))}
+              </div>
             </div>
           )}
         </div>

@@ -8,6 +8,14 @@ export const ProofBarBlock: Block = {
     { name: 'heading', type: 'text', required: true },
     { name: 'highlight', type: 'text', label: 'Highlighted phrase' },
     {
+      name: 'backgroundImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Background image',
+      filterOptions: { mimeType: { contains: 'image' } },
+      admin: { description: 'Optional. Leave blank to use the default decorative glow.' },
+    },
+    {
       name: 'logos',
       type: 'array',
       labels: { singular: 'Logo', plural: 'Logos' },

@@ -29,7 +29,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="en" className={`${nunitoSans.variable} ${merriweather.variable}`}>
-      <body className="relative flex min-h-screen flex-col bg-white font-sans text-gray-900 antialiased">
+      <body className="relative flex min-h-screen flex-col bg-ink font-sans text-white antialiased">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer contact={contact} />
