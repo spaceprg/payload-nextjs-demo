@@ -28,7 +28,9 @@ export default function ServiceSlider({ services }: { services: Service[] }) {
     const track = trackRef.current
     if (!track) return
     const cardWidth = track.firstElementChild?.clientWidth ?? 320
-    track.scrollBy({ left: direction === 'left' ? -(cardWidth + 24) : cardWidth + 24, behavior: 'smooth' })
+    const gap = 24
+    // Advance by 3 cards (one "page") at a time to match the 3-visible layout.
+    track.scrollBy({ left: direction === 'left' ? -3 * (cardWidth + gap) : 3 * (cardWidth + gap), behavior: 'smooth' })
   }
 
   return (
@@ -40,7 +42,7 @@ export default function ServiceSlider({ services }: { services: Service[] }) {
         {services.map((service) => (
           <div
             key={service.id}
-            className="group relative flex h-[300px] w-[320px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border-2 border-purple-deep bg-black p-6 shadow-[inset_3px_1px_31px_-6px_rgba(189,39,246,0.6)]"
+            className="group relative flex aspect-[420/443] w-[85%] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border-2 border-purple-deep bg-black p-6 shadow-[inset_3px_1px_31px_-6px_rgba(189,39,246,0.6)] sm:w-[46%] lg:w-[calc((100%-48px)/3)]"
           >
             {service.heroImage && (
               <Image src={mediaUrl(service.heroImage)} alt="" fill className="object-cover opacity-70" />

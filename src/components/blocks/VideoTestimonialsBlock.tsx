@@ -10,12 +10,7 @@ export default function VideoTestimonialsBlock({
   testimonials,
 }: VideoTestimonialsBlockData) {
   if (!heading) return null
-
-  const speakers = [
-    ...(mainSpeaker ? [{ ...mainSpeaker, large: true }] : []),
-    ...(testimonials || []),
-  ]
-  if (speakers.length === 0) return null
+  if (!mainSpeaker && (!testimonials || testimonials.length === 0)) return null
 
   return (
     <section className="bg-ink py-16 md:py-24">
@@ -25,7 +20,7 @@ export default function VideoTestimonialsBlock({
       </div>
 
       <div className="mt-10">
-        <VideoTestimonialsSlider speakers={speakers} />
+        <VideoTestimonialsSlider mainSpeaker={mainSpeaker} speakers={testimonials || []} />
       </div>
     </section>
   )

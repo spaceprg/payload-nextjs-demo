@@ -181,14 +181,7 @@ export default async function HomePage() {
         eyebrow="Case studies"
         heading="We craft digital experiences that elevate your business."
         highlight="digital experiences"
-        cardText="How Automation and Gen-AI scaled marketing operations and saved 400+ hours for a global B2B e-commerce giant"
-        stat1Value="195%"
-        stat1Label="Increase in organic visibility achieved"
-        stat2Value="400+"
-        stat2Label="Marketing hours saved through AI & automation"
-        buttonLabel="Read full case"
-        buttonHref="/services"
-        backgroundImage={img('/images/home/case-study/bg.png')}
+        limit={6}
       />
 
       <InsightsGridBlock

@@ -1,7 +1,6 @@
-import Image from 'next/image'
 import HomeButton from '@/components/home/HomeButton'
+import TransformGallerySlider from './TransformGallerySlider'
 import { Eyebrow, HighlightedHeading } from '@/components/home/SectionHeading'
-import { mediaUrl } from '@/lib/payload'
 import type { TransformSplitBlockData } from '@/lib/payload'
 
 export default function TransformSplitBlock({
@@ -34,18 +33,7 @@ export default function TransformSplitBlock({
         </div>
 
         {galleryImages && galleryImages.length > 0 && (
-          <div className="mt-16 grid grid-cols-2 gap-4 md:grid-cols-5">
-            {galleryImages.map((item, index) => (
-              <div
-                key={item.id ?? index}
-                className={`relative overflow-hidden rounded-lg border border-white/10 ${
-                  index === 0 || index === galleryImages.length - 1 ? 'aspect-[4/5]' : 'aspect-square'
-                }`}
-              >
-                <Image src={mediaUrl(item.image)} alt="" fill className="object-cover" />
-              </div>
-            ))}
-          </div>
+          <TransformGallerySlider images={galleryImages.map((item) => item.image)} />
         )}
       </div>
     </section>

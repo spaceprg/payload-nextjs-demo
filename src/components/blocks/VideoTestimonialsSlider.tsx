@@ -42,8 +42,8 @@ function SpeakerCard({
       type="button"
       onClick={hasVideo ? onPlay : undefined}
       disabled={!hasVideo}
-      className={`group relative shrink-0 snap-start overflow-hidden rounded-lg text-left ${
-        large ? 'h-[300px] w-[600px] md:h-[436px]' : 'h-[260px] w-[320px]'
+      className={`group relative w-full overflow-hidden rounded-lg text-left ${
+        large ? 'aspect-[822/436]' : 'aspect-[405/260] shrink-0 snap-start sm:w-[calc((100%-48px)/3)]'
       } ${hasVideo ? 'cursor-pointer' : 'cursor-default'}`}
     >
       {speaker.posterImage && (
@@ -102,7 +102,13 @@ function VideoModal({ videoId, onClose }: { videoId: string; onClose: () => void
   )
 }
 
-export default function VideoTestimonialsSlider({ speakers }: { speakers: (VideoSpeaker & { large?: boolean })[] }) {
+export default function VideoTestimonialsSlider({
+  mainSpeaker,
+  speakers,
+}: {
+  mainSpeaker?: VideoSpeaker | null
+  speakers: VideoSpeaker[]
+}) {
   const trackRef = useRef<HTMLDivElement>(null)
   const [activeVideoId, setActiveVideoId] = useState<string | null>(null)
 
@@ -110,29 +116,41 @@ export default function VideoTestimonialsSlider({ speakers }: { speakers: (Video
     const track = trackRef.current
     if (!track) return
     const cardWidth = track.firstElementChild?.clientWidth ?? 320
-    track.scrollBy({ left: direction === 'left' ? -(cardWidth + 24) : cardWidth + 24, behavior: 'smooth' })
+    const gap = 24
+    track.scrollBy({ left: direction === 'left' ? -3 * (cardWidth + gap) : 3 * (cardWidth + gap), behavior: 'smooth' })
   }
 
   return (
     <div>
-      <div
-        ref={trackRef}
-        className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
-        {speakers.map((speaker, index) => (
-          <SpeakerCard
-            key={speaker.id ?? index}
-            speaker={speaker}
-            large={speaker.large}
-            onPlay={() => setActiveVideoId(youtubeEmbedId(speaker.youtubeUrl))}
-          />
-        ))}
-      </div>
+      {mainSpeaker && (
+        <div className="mx-auto mb-6 max-w-[822px] px-6">
+          <SpeakerCard speaker={mainSpeaker} large onPlay={() => setActiveVideoId(youtubeEmbedId(mainSpeaker.youtubeUrl))} />
+        </div>
+      )}
 
-      <div className="mt-8 flex justify-center gap-4 px-6">
-        <ArrowButton direction="left" onClick={() => scroll('left')} />
-        <ArrowButton direction="right" onClick={() => scroll('right')} />
-      </div>
+      {speakers.length > 0 && (
+        <>
+          <div
+            ref={trackRef}
+            className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {speakers.map((speaker, index) => (
+              <SpeakerCard
+                key={speaker.id ?? index}
+                speaker={speaker}
+                onPlay={() => setActiveVideoId(youtubeEmbedId(speaker.youtubeUrl))}
+              />
+            ))}
+          </div>
+
+          {speakers.length > 3 && (
+            <div className="mt-8 flex justify-center gap-4 px-6">
+              <ArrowButton direction="left" onClick={() => scroll('left')} />
+              <ArrowButton direction="right" onClick={() => scroll('right')} />
+            </div>
+          )}
+        </>
+      )}
 
       {activeVideoId && <VideoModal videoId={activeVideoId} onClose={() => setActiveVideoId(null)} />}
     </div>

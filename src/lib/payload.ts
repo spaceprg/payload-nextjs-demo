@@ -286,14 +286,7 @@ export type CaseStudySpotlightBlockData = {
   eyebrow?: string | null
   heading: string
   highlight?: string | null
-  cardText?: string | null
-  stat1Value?: string | null
-  stat1Label?: string | null
-  stat2Value?: string | null
-  stat2Label?: string | null
-  buttonLabel?: string | null
-  buttonHref?: string | null
-  backgroundImage?: Media | null
+  limit?: number | null
 }
 
 export type InsightCardItem = {
@@ -350,6 +343,19 @@ export type Service = {
   seo?: Seo
 }
 
+export type CaseStudy = {
+  id: string
+  title: string
+  client?: string | null
+  backgroundImage: Media
+  stat1Value: string
+  stat1Label: string
+  stat2Value: string
+  stat2Label: string
+  buttonLabel?: string | null
+  buttonHref?: string | null
+}
+
 export type AboutGlobal = {
   title: string
   heroImage?: Media
@@ -390,6 +396,25 @@ export async function getServices(): Promise<Service[]> {
     return result.docs as Service[]
   } catch (error) {
     console.error('getServices failed:', error)
+    return []
+  }
+}
+
+/**
+ * Fetch all case studies, newest first.
+ * Returns an empty array (rather than throwing) if the CMS call fails.
+ */
+export async function getCaseStudies(): Promise<CaseStudy[]> {
+  try {
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+      collection: 'case-studies',
+      sort: '-createdAt',
+      limit: 20,
+    })
+    return result.docs as CaseStudy[]
+  } catch (error) {
+    console.error('getCaseStudies failed:', error)
     return []
   }
 }
