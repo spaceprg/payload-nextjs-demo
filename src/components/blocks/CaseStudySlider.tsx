@@ -41,9 +41,14 @@ function CaseStudyCard({ caseStudy }: { caseStudy: CaseStudy }) {
 
         <div className="relative flex flex-1 flex-col justify-between gap-8 bg-purple px-8 py-8">
           <p className="text-2xl leading-8 text-white">{caseStudy.title}</p>
-          {caseStudy.buttonLabel && caseStudy.buttonHref && (
+          {caseStudy.buttonLabel && caseStudy.slug && (
             <div>
-              <HomeButton label={caseStudy.buttonLabel} href={caseStudy.buttonHref} variant="outline" className="self-start" />
+              <HomeButton
+                label={caseStudy.buttonLabel}
+                href={`/case-studies/${caseStudy.slug}`}
+                variant="outline"
+                className="self-start"
+              />
             </div>
           )}
         </div>

@@ -289,16 +289,6 @@ export type CaseStudySpotlightBlockData = {
   limit?: number | null
 }
 
-export type InsightCardItem = {
-  id?: string
-  category: string
-  date: string
-  readTime?: string | null
-  title: string
-  image?: Media | null
-  href?: string | null
-}
-
 export type InsightsGridBlockData = {
   id?: string
   blockType: 'insightsGrid'
@@ -308,7 +298,7 @@ export type InsightsGridBlockData = {
   subtext?: string | null
   buttonLabel?: string | null
   buttonHref?: string | null
-  cards: InsightCardItem[]
+  limit?: number | null
 }
 
 export type LayoutBlock =
@@ -346,14 +336,30 @@ export type Service = {
 export type CaseStudy = {
   id: string
   title: string
+  slug?: string | null
   client?: string | null
+  excerpt?: string | null
   backgroundImage: Media
   stat1Value: string
   stat1Label: string
   stat2Value: string
   stat2Label: string
+  content?: unknown
   buttonLabel?: string | null
-  buttonHref?: string | null
+  seo?: Seo
+}
+
+export type Insight = {
+  id: string
+  title: string
+  slug: string
+  category: string
+  publishedDate: string
+  readTime?: string | null
+  excerpt?: string | null
+  heroImage: Media
+  content?: unknown
+  seo?: Seo
 }
 
 export type AboutGlobal = {
@@ -434,6 +440,63 @@ export async function getServiceBySlug(slug: string): Promise<Service | null> {
     return (result.docs[0] as Service) ?? null
   } catch (error) {
     console.error(`getServiceBySlug(${slug}) failed:`, error)
+    return null
+  }
+}
+
+/**
+ * Fetch a single case study by its slug. Returns null if not found or on error,
+ * so callers can trigger a 404 via Next's notFound().
+ */
+export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy | null> {
+  try {
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+      collection: 'case-studies',
+      where: { slug: { equals: slug } },
+      limit: 1,
+    })
+    return (result.docs[0] as CaseStudy) ?? null
+  } catch (error) {
+    console.error(`getCaseStudyBySlug(${slug}) failed:`, error)
+    return null
+  }
+}
+
+/**
+ * Fetch all insights, newest first.
+ * Returns an empty array (rather than throwing) if the CMS call fails.
+ */
+export async function getInsights(): Promise<Insight[]> {
+  try {
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+      collection: 'insights',
+      sort: '-publishedDate',
+      limit: 50,
+    })
+    return result.docs as Insight[]
+  } catch (error) {
+    console.error('getInsights failed:', error)
+    return []
+  }
+}
+
+/**
+ * Fetch a single insight by its slug. Returns null if not found or on error,
+ * so callers can trigger a 404 via Next's notFound().
+ */
+export async function getInsightBySlug(slug: string): Promise<Insight | null> {
+  try {
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+      collection: 'insights',
+      where: { slug: { equals: slug } },
+      limit: 1,
+    })
+    return (result.docs[0] as Insight) ?? null
+  } catch (error) {
+    console.error(`getInsightBySlug(${slug}) failed:`, error)
     return null
   }
 }

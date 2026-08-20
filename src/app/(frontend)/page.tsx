@@ -191,30 +191,8 @@ export default async function HomePage() {
         highlight="smarter growth."
         subtext="Industry-specific insights make a difference. We bring experience from over successful 100 client projects to each new case to develop and implement optimal digital marketing strategies for all of our clients."
         buttonLabel="View all insights"
-        buttonHref="#"
-        cards={[
-          {
-            category: 'Generative AI, SEO',
-            date: 'October 8, 2024',
-            readTime: '5 min read',
-            title: 'AI in marketing: the end of website traffic as we know it',
-            image: img('/images/home/insights/1.png'),
-          },
-          {
-            category: 'Generative AI',
-            date: 'May 7, 2025',
-            readTime: '5 min read',
-            title: 'An AI-Case Study from a Global Leader in Heavy Industry and Manufacturing',
-            image: img('/images/home/insights/3.png'),
-          },
-          {
-            category: 'Generative AI',
-            date: 'February 26, 2026',
-            readTime: '5 min read',
-            title: 'Welcome to the Agentic Era: Where your next customer might be an AI',
-            image: img('/images/home/insights/4.png'),
-          },
-        ]}
+        buttonHref="/insights"
+        limit={3}
       />
     </>
   )

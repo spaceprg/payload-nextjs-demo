@@ -9,6 +9,7 @@ import { buildConfig } from 'payload'
 
 import { CaseStudies } from './collections/CaseStudies'
 import { FormSubmissions } from './collections/FormSubmissions'
+import { Insights } from './collections/Insights'
 import { Media } from './collections/Media'
 import { Services } from './collections/Services'
 import { Users } from './collections/Users'
@@ -24,7 +25,7 @@ export default buildConfig({
     user: Users.slug,
   },
   editor: lexicalEditor(),
-  collections: [Users, Media, Services, FormSubmissions, CaseStudies],
+  collections: [Users, Media, Services, FormSubmissions, CaseStudies, Insights],
   globals: [About, Contact, Home],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
