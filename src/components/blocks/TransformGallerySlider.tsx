@@ -1,64 +1,114 @@
 'use client'
 
 import Image from 'next/image'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { mediaUrl } from '@/lib/media'
 import type { Media } from '@/lib/media'
 
 // Bento-style tile sizes cycling per index, matching the Figma gallery's irregular row.
 const TILE_SIZES = [
-  'h-[169px] w-[300px]',
-  'h-[307px] w-[217px]',
-  'h-[260px] w-[183px]',
-  'h-[217px] w-[217px]',
-  'h-[169px] w-[300px]',
+  'h-[169px] w-[340px]',
+  'h-[307px] w-[250px]',
+  'h-[260px] w-[210px]',
+  'h-[217px] w-[250px]',
+  'h-[169px] w-[340px]',
 ]
 
-function ArrowButton({ direction, onClick }: { direction: 'left' | 'right'; onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={direction === 'left' ? 'Previous images' : 'Next images'}
-      className="flex size-11 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white transition hover:bg-white/15"
-    >
-      <span className={`relative block h-2.5 w-4 ${direction === 'left' ? 'rotate-180' : ''}`}>
-        <Image src="/images/home/icons/arrow-right.svg" alt="" fill />
-      </span>
-    </button>
-  )
-}
+const AUTO_SCROLL_SPEED_PX_PER_SEC = 40
 
 export default function TransformGallerySlider({ images }: { images: Media[] }) {
   const trackRef = useRef<HTMLDivElement>(null)
+  const isPausedRef = useRef(false)
+  const isDraggingRef = useRef(false)
+  const dragStartXRef = useRef(0)
+  const dragStartScrollLeftRef = useRef(0)
+  const canLoop = images.length > 1
+  // Render the set twice so scrolling past the first copy lands seamlessly on an identical second copy.
+  const loopedImages = canLoop ? [...images, ...images] : images
 
-  const scroll = (direction: 'left' | 'right') => {
+  useEffect(() => {
+    if (!canLoop) return
     const track = trackRef.current
     if (!track) return
-    track.scrollBy({ left: direction === 'left' ? -320 : 320, behavior: 'smooth' })
+
+    let frameId: number
+    let lastTime: number | null = null
+
+    const step = (time: number) => {
+      if (lastTime === null) lastTime = time
+      const delta = time - lastTime
+      lastTime = time
+
+      if (!isPausedRef.current) {
+        const halfWidth = track.scrollWidth / 2
+        track.scrollLeft += (AUTO_SCROLL_SPEED_PX_PER_SEC * delta) / 1000
+        if (track.scrollLeft >= halfWidth) {
+          track.scrollLeft -= halfWidth
+        }
+      }
+      frameId = requestAnimationFrame(step)
+    }
+
+    frameId = requestAnimationFrame(step)
+    return () => cancelAnimationFrame(frameId)
+  }, [canLoop])
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    const track = trackRef.current
+    if (!track) return
+    isDraggingRef.current = true
+    isPausedRef.current = true
+    dragStartXRef.current = event.clientX
+    dragStartScrollLeftRef.current = track.scrollLeft
+    track.setPointerCapture(event.pointerId)
+  }
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current) return
+    const track = trackRef.current
+    if (!track) return
+    let next = dragStartScrollLeftRef.current - (event.clientX - dragStartXRef.current)
+    if (canLoop) {
+      const halfWidth = track.scrollWidth / 2
+      next = ((next % halfWidth) + halfWidth) % halfWidth
+    }
+    track.scrollLeft = next
+  }
+
+  const endDrag = (event: React.PointerEvent<HTMLDivElement>) => {
+    const track = trackRef.current
+    isDraggingRef.current = false
+    isPausedRef.current = false
+    track?.releasePointerCapture(event.pointerId)
   }
 
   if (images.length === 0) return null
 
   return (
-    <div className="mt-16">
+    <div className="mt-16 w-full">
       <div
         ref={trackRef}
-        className="flex items-start gap-4 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        onMouseEnter={() => {
+          isPausedRef.current = true
+        }}
+        onMouseLeave={() => {
+          isPausedRef.current = false
+        }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onDragStart={(event) => event.preventDefault()}
+        className="flex cursor-grab items-start gap-4 overflow-x-auto px-6 active:cursor-grabbing [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {images.map((image, index) => (
+        {loopedImages.map((image, index) => (
           <div
-            key={image.id ?? index}
-            className={`relative shrink-0 overflow-hidden rounded-lg border border-white/10 ${TILE_SIZES[index % TILE_SIZES.length]}`}
+            key={`${image.id ?? 'img'}-${index}`}
+            className={`relative shrink-0 select-none overflow-hidden rounded-lg border border-white/10 ${TILE_SIZES[index % TILE_SIZES.length]}`}
           >
-            <Image src={mediaUrl(image)} alt="" fill className="object-cover" />
+            <Image src={mediaUrl(image)} alt="" fill className="pointer-events-none object-cover" />
           </div>
         ))}
-      </div>
-
-      <div className="mt-6 flex gap-4">
-        <ArrowButton direction="left" onClick={() => scroll('left')} />
-        <ArrowButton direction="right" onClick={() => scroll('right')} />
       </div>
     </div>
   )

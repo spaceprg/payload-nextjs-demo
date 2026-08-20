@@ -31,11 +31,11 @@ export default function TransformSplitBlock({
             )}
           </div>
         </div>
-
-        {galleryImages && galleryImages.length > 0 && (
-          <TransformGallerySlider images={galleryImages.map((item) => item.image)} />
-        )}
       </div>
+
+      {galleryImages && galleryImages.length > 0 && (
+        <TransformGallerySlider images={galleryImages.map((item) => item.image)} />
+      )}
     </section>
   )
 }
