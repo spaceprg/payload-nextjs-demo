@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import ContactForm from '@/components/ContactForm'
+import PageBuilder from '@/components/blocks/PageBuilder'
+import ContactFormSection from '@/components/ContactFormSection'
 import { getContact } from '@/lib/payload'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -12,35 +13,20 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ContactPage() {
   const contact = await getContact()
+  const hasLayout = contact?.layout && contact.layout.length > 0
 
   return (
-    <div className="bg-ink">
-      <div className="mx-auto grid max-w-content gap-12 px-6 py-16 md:grid-cols-2">
-        <div>
-          <h1 className="text-4xl font-medium text-white">
-            {contact?.title || 'Contact Us'}
-          </h1>
-          <p className="mt-4 text-white/70">
-            {contact?.description || "We'd love to hear about your project. Reach out any time."}
-          </p>
-          <dl className="mt-8 space-y-3 text-sm">
-            <div className="flex gap-2">
-              <dt className="font-medium text-white">Email:</dt>
-              <dd className="text-white/70">{contact?.email || 'hello@example.com'}</dd>
-            </div>
-            <div className="flex gap-2">
-              <dt className="font-medium text-white">Phone:</dt>
-              <dd className="text-white/70">{contact?.phone || '+46 000 000 000'}</dd>
-            </div>
-            <div className="flex gap-2">
-              <dt className="font-medium text-white">Address:</dt>
-              <dd className="text-white/70">{contact?.address || 'Stockholm, Sweden'}</dd>
-            </div>
-          </dl>
+    <>
+      {hasLayout ? (
+        <PageBuilder blocks={contact!.layout} />
+      ) : (
+        <div className="bg-ink pt-32">
+          <div className="mx-auto max-w-content px-6">
+            <h1 className="text-4xl font-medium text-white md:text-5xl">{contact?.title || 'Contact Us'}</h1>
+          </div>
         </div>
-
-        <ContactForm />
-      </div>
-    </div>
+      )}
+      <ContactFormSection contact={contact} />
+    </>
   )
 }

@@ -20,7 +20,9 @@ export const FormSubmissions: CollectionConfig = {
     { name: 'name', type: 'text', required: true },
     { name: 'email', type: 'email', required: true },
     { name: 'phone', type: 'text' },
-    { name: 'business', type: 'text' },
+    { name: 'business', type: 'text', label: 'Company' },
+    { name: 'jobTitle', type: 'text', label: 'Job title' },
+    { name: 'country', type: 'text' },
     { name: 'service', type: 'text', label: 'Service interest' },
     { name: 'message', type: 'textarea', required: true },
     {

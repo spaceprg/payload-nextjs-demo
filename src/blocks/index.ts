@@ -18,6 +18,8 @@ import { AIWorkflowPanelBlock } from './AIWorkflowPanel/config'
 import { VideoTestimonialsBlock } from './VideoTestimonials/config'
 import { CaseStudySpotlightBlock } from './CaseStudySpotlight/config'
 import { InsightsGridBlock } from './InsightsGrid/config'
+import { OfficesBlock } from './Offices/config'
+import { ContactPersonsBlock } from './ContactPersons/config'
 
 /**
  * Every block registered here becomes selectable in any `layout` blocks field
@@ -45,6 +47,8 @@ export const layoutBlocks: Block[] = [
   VideoTestimonialsBlock,
   CaseStudySpotlightBlock,
   InsightsGridBlock,
+  OfficesBlock,
+  ContactPersonsBlock,
 ]
 
 export {
@@ -67,4 +71,6 @@ export {
   VideoTestimonialsBlock,
   CaseStudySpotlightBlock,
   InsightsGridBlock,
+  OfficesBlock,
+  ContactPersonsBlock,
 }

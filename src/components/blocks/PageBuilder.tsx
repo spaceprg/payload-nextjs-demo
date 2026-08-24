@@ -18,6 +18,8 @@ import AIWorkflowPanelBlock from './AIWorkflowPanelBlock'
 import VideoTestimonialsBlock from './VideoTestimonialsBlock'
 import CaseStudySpotlightBlock from './CaseStudySpotlightBlock'
 import InsightsGridBlock from './InsightsGridBlock'
+import OfficesBlock from './OfficesBlock'
+import ContactPersonsBlock from './ContactPersonsBlock'
 
 /**
  * Renders a page's `layout` blocks field. To support a new section type, add its config to
@@ -70,6 +72,10 @@ export default function PageBuilder({ blocks }: { blocks?: LayoutBlock[] | null 
             return <CaseStudySpotlightBlock key={key} {...block} />
           case 'insightsGrid':
             return <InsightsGridBlock key={key} {...block} />
+          case 'offices':
+            return <OfficesBlock key={key} {...block} />
+          case 'contactPersons':
+            return <ContactPersonsBlock key={key} {...block} />
           default:
             return null
         }

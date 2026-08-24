@@ -20,19 +20,17 @@ export default async function AboutPage() {
   const title = about?.title || 'About GO MO Group'
   const hasLayout = about?.layout && about.layout.length > 0
 
+  if (hasLayout) {
+    return <PageBuilder blocks={about!.layout} />
+  }
+
   return (
     <>
       <HeroBanner title={title} imageUrl={mediaUrl(about?.heroImage)} />
-      {hasLayout ? (
-        <PageBuilder blocks={about.layout} />
-      ) : (
-        <>
-          <ContentSection>
-            <RichText data={about?.content as SerializedEditorState | undefined} />
-          </ContentSection>
-          <CTASection title="Want to work with us?" />
-        </>
-      )}
+      <ContentSection>
+        <RichText data={about?.content as SerializedEditorState | undefined} />
+      </ContentSection>
+      <CTASection title="Want to work with us?" />
     </>
   )
 }

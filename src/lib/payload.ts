@@ -299,6 +299,42 @@ export type InsightsGridBlockData = {
   limit?: number | null
 }
 
+export type OfficeItem = {
+  id?: string
+  city: string
+  country?: string | null
+  address: string
+}
+
+export type OfficesBlockData = {
+  id?: string
+  blockType: 'offices'
+  eyebrow?: string | null
+  heading: string
+  highlight?: string | null
+  subtext?: string | null
+  offices: OfficeItem[]
+}
+
+export type ContactPersonItem = {
+  id?: string
+  photo?: Media | null
+  name: string
+  role: string
+  reason?: string | null
+  email?: string | null
+  phone?: string | null
+}
+
+export type ContactPersonsBlockData = {
+  id?: string
+  blockType: 'contactPersons'
+  eyebrow?: string | null
+  heading: string
+  highlight?: string | null
+  persons: ContactPersonItem[]
+}
+
 export type LayoutBlock =
   | ContentBlockData
   | ImageBlockData
@@ -319,6 +355,8 @@ export type LayoutBlock =
   | VideoTestimonialsBlockData
   | CaseStudySpotlightBlockData
   | InsightsGridBlockData
+  | OfficesBlockData
+  | ContactPersonsBlockData
 
 export type Service = {
   id: string
@@ -393,6 +431,7 @@ export type ContactGlobal = {
   address?: string
   notificationEmail?: string
   content?: unknown
+  layout?: LayoutBlock[]
   seo?: Seo
 }
 

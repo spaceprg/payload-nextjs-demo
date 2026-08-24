@@ -1,14 +1,20 @@
 'use client'
 
 import { useState } from 'react'
+import { COUNTRIES } from '@/lib/countries'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
+const initialFields = { name: '', business: '', jobTitle: '', email: '', country: '', message: '' }
+
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>('idle')
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [message, setMessage] = useState('')
+  const [fields, setFields] = useState(initialFields)
+
+  const setField =
+    (key: keyof typeof initialFields) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+      setFields((prev) => ({ ...prev, [key]: e.target.value }))
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -18,15 +24,13 @@ export default function ContactForm() {
       const res = await fetch('/api/form-submissions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message, formSource: 'contact-page' }),
+        body: JSON.stringify({ ...fields, formSource: 'contact-page' }),
       })
 
       if (!res.ok) throw new Error('Request failed')
 
       setStatus('success')
-      setName('')
-      setEmail('')
-      setMessage('')
+      setFields(initialFields)
     } catch {
       setStatus('error')
     }
@@ -43,35 +47,76 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5 rounded-xl border border-white/10 bg-white/5 p-6">
-      <div>
-        <label className="mb-1 block text-sm text-white/70">Name</label>
-        <input
-          type="text"
-          required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-white/60"
-          placeholder="Your name"
-        />
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div>
+          <label className="mb-1 block text-sm text-white/70">Name</label>
+          <input
+            type="text"
+            required
+            value={fields.name}
+            onChange={setField('name')}
+            className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-white/60"
+            placeholder="Your name"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-sm text-white/70">Company</label>
+          <input
+            type="text"
+            required
+            value={fields.business}
+            onChange={setField('business')}
+            className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-white/60"
+            placeholder="Your company"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-sm text-white/70">Job title</label>
+          <input
+            type="text"
+            value={fields.jobTitle}
+            onChange={setField('jobTitle')}
+            className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-white/60"
+            placeholder="Your role"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-sm text-white/70">Email</label>
+          <input
+            type="email"
+            required
+            value={fields.email}
+            onChange={setField('email')}
+            className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-white/60"
+            placeholder="you@example.com"
+          />
+        </div>
       </div>
       <div>
-        <label className="mb-1 block text-sm text-white/70">Email</label>
-        <input
-          type="email"
+        <label className="mb-1 block text-sm text-white/70">Country</label>
+        <select
           required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-white/60"
-          placeholder="you@example.com"
-        />
+          value={fields.country}
+          onChange={setField('country')}
+          className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white outline-none focus:border-white/60 [&>option]:bg-ink"
+        >
+          <option value="" disabled>
+            Select your country
+          </option>
+          {COUNTRIES.map((country) => (
+            <option key={country} value={country}>
+              {country}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <label className="mb-1 block text-sm text-white/70">Message</label>
         <textarea
           rows={4}
           required
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          value={fields.message}
+          onChange={setField('message')}
           className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-white/60"
           placeholder="How can we help?"
         />
