@@ -176,13 +176,7 @@ export default async function HomePage() {
         ]}
       />
 
-      <CaseStudySpotlightBlock
-        blockType="caseStudySpotlight"
-        eyebrow="Case studies"
-        heading="We craft digital experiences that elevate your business."
-        highlight="digital experiences"
-        limit={6}
-      />
+      <CaseStudySpotlightBlock blockType="caseStudySpotlight" eyebrow="Case studies" limit={5} />
 
       <InsightsGridBlock
         blockType="insightsGrid"

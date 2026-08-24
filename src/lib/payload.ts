@@ -284,8 +284,6 @@ export type CaseStudySpotlightBlockData = {
   id?: string
   blockType: 'caseStudySpotlight'
   eyebrow?: string | null
-  heading: string
-  highlight?: string | null
   limit?: number | null
 }
 
@@ -336,6 +334,7 @@ export type Service = {
 export type CaseStudy = {
   id: string
   title: string
+  highlight?: string | null
   slug?: string | null
   client?: string | null
   excerpt?: string | null

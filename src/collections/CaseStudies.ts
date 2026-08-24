@@ -11,7 +11,9 @@ export const CaseStudies: CollectionConfig = {
     read: () => true,
   },
   fields: [
+    // Shown as the big slide headline on the homepage case study slider.
     { name: 'title', type: 'text', required: true, label: 'Headline / summary' },
+    { name: 'highlight', type: 'text', label: 'Highlighted phrase in title', admin: { description: 'A substring of the title to italicize/color — e.g. "digital experiences".' } },
     // Not required: this field was added after case studies already existed, so older
     // rows may not have a slug yet. Set one in the admin to enable the detail page link.
     slugField({ required: false }),
