@@ -34,20 +34,18 @@ export default async function SolutionDetailPage({ params }: Props) {
 
   const hasLayout = solution.layout && solution.layout.length > 0
 
+  if (hasLayout) {
+    return <PageBuilder blocks={solution.layout} />
+  }
+
   return (
     <>
       <HeroBanner title={solution.title} imageUrl={mediaUrl(solution.heroImage, 'hero')} align="left" />
-      {hasLayout ? (
-        <PageBuilder blocks={solution.layout} />
-      ) : (
-        <>
-          <ContentSection>
-            <p className="text-lg text-white/80">{solution.shortDescription}</p>
-            <RichText data={solution.content as SerializedEditorState | undefined} className="mt-6" />
-          </ContentSection>
-          <CTASection title="Interested in this solution?" />
-        </>
-      )}
+      <ContentSection>
+        <p className="text-lg text-white/80">{solution.shortDescription}</p>
+        <RichText data={solution.content as SerializedEditorState | undefined} className="mt-6" />
+      </ContentSection>
+      <CTASection title="Interested in this solution?" />
     </>
   )
 }
