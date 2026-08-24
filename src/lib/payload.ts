@@ -331,6 +331,17 @@ export type Service = {
   seo?: Seo
 }
 
+export type Solution = {
+  id: string
+  title: string
+  slug: string
+  shortDescription: string
+  heroImage: Media
+  content?: unknown
+  layout?: LayoutBlock[]
+  seo?: Seo
+}
+
 export type CaseStudy = {
   id: string
   title: string
@@ -402,6 +413,44 @@ export async function getServices(): Promise<Service[]> {
   } catch (error) {
     console.error('getServices failed:', error)
     return []
+  }
+}
+
+/**
+ * Fetch all solutions, ordered by title.
+ * Returns an empty array (rather than throwing) if the CMS call fails.
+ */
+export async function getSolutions(): Promise<Solution[]> {
+  try {
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+      collection: 'solutions',
+      sort: 'title',
+      limit: 100,
+    })
+    return result.docs as Solution[]
+  } catch (error) {
+    console.error('getSolutions failed:', error)
+    return []
+  }
+}
+
+/**
+ * Fetch a single solution by its slug. Returns null if not found or on error,
+ * so callers can trigger a 404 via Next's notFound().
+ */
+export async function getSolutionBySlug(slug: string): Promise<Solution | null> {
+  try {
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+      collection: 'solutions',
+      where: { slug: { equals: slug } },
+      limit: 1,
+    })
+    return (result.docs[0] as Solution) ?? null
+  } catch (error) {
+    console.error(`getSolutionBySlug(${slug}) failed:`, error)
+    return null
   }
 }
 
