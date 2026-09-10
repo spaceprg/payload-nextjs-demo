@@ -438,6 +438,38 @@ export type ContactGlobal = {
   seo?: Seo
 }
 
+export type HeaderSettingsGlobal = {
+  logo?: Media | null
+  logoAltText?: string | null
+  navItems?: LinkField[] | null
+  contactButton?: LinkField | null
+}
+
+export type FooterColumn = {
+  id?: string
+  heading: string
+  links?: LinkField[] | null
+}
+
+export type SocialPlatform = 'linkedin' | 'facebook' | 'youtube' | 'x' | 'instagram'
+
+export type SocialLink = {
+  id?: string
+  platform: SocialPlatform
+  url: string
+}
+
+export type FooterSettingsGlobal = {
+  logo?: Media | null
+  logoAltText?: string | null
+  tagline?: string | null
+  ctaButton?: LinkField | null
+  columns?: FooterColumn[] | null
+  socialLinks?: SocialLink[] | null
+  legalLinks?: LinkField[] | null
+  copyrightText?: string | null
+}
+
 /**
  * Fetch all services, ordered by title.
  * Returns an empty array (rather than throwing) if the CMS call fails,
@@ -643,6 +675,32 @@ export async function getContact(): Promise<ContactGlobal | null> {
     return result as ContactGlobal
   } catch (error) {
     console.error('getContact failed:', error)
+    return null
+  }
+}
+
+/** Theme Options → Header Options: site-wide logo, nav menu, and contact button. */
+export async function getHeaderSettings(): Promise<HeaderSettingsGlobal | null> {
+  try {
+    const payload = await getPayload({ config })
+    const locale = await getLocale()
+    const result = await payload.findGlobal({ slug: 'header', locale })
+    return result as HeaderSettingsGlobal
+  } catch (error) {
+    console.error('getHeaderSettings failed:', error)
+    return null
+  }
+}
+
+/** Theme Options → Footer Options: logo, tagline, menu columns, social + legal links, copyright. */
+export async function getFooterSettings(): Promise<FooterSettingsGlobal | null> {
+  try {
+    const payload = await getPayload({ config })
+    const locale = await getLocale()
+    const result = await payload.findGlobal({ slug: 'footer', locale })
+    return result as FooterSettingsGlobal
+  } catch (error) {
+    console.error('getFooterSettings failed:', error)
     return null
   }
 }

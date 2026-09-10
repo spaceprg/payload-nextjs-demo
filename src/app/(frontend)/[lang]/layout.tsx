@@ -3,7 +3,7 @@ import { Nunito_Sans, Merriweather } from 'next/font/google'
 import { lang } from 'next/root-params'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { getContact } from '@/lib/payload'
+import { getContact, getHeaderSettings, getFooterSettings } from '@/lib/payload'
 import { getDictionary } from '@/lib/i18n/getDictionary'
 import { isLocale, defaultLocale, locales } from '@/lib/i18n/config'
 import { AlternateLinkProvider } from '@/lib/i18n/alternate-link-context'
@@ -35,15 +35,20 @@ export async function generateStaticParams() {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const rawLang = await lang()
   const locale = isLocale(rawLang) ? rawLang : defaultLocale
-  const [contact, dictionary] = await Promise.all([getContact(), getDictionary(locale)])
+  const [contact, dictionary, headerSettings, footerSettings] = await Promise.all([
+    getContact(),
+    getDictionary(locale),
+    getHeaderSettings(),
+    getFooterSettings(),
+  ])
 
   return (
     <html lang={locale} className={`${nunitoSans.variable} ${merriweather.variable}`}>
       <body className="relative flex min-h-screen flex-col bg-ink font-sans text-white antialiased">
         <AlternateLinkProvider>
-          <Header dictionary={dictionary} />
+          <Header dictionary={dictionary} settings={headerSettings} />
           <main className="flex-1">{children}</main>
-          <Footer contact={contact} dictionary={dictionary} />
+          <Footer contact={contact} dictionary={dictionary} settings={footerSettings} />
         </AlternateLinkProvider>
       </body>
     </html>

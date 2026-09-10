@@ -17,6 +17,8 @@ import { Users } from './collections/Users'
 import { About } from './globals/About'
 import { Contact } from './globals/Contact'
 import { Home } from './globals/Home'
+import { HeaderSettings } from './globals/HeaderSettings'
+import { FooterSettings } from './globals/FooterSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -27,7 +29,7 @@ export default buildConfig({
   },
   editor: lexicalEditor(),
   collections: [Users, Media, Services, Solutions, FormSubmissions, CaseStudies, Insights],
-  globals: [About, Contact, Home],
+  globals: [About, Contact, Home, HeaderSettings, FooterSettings],
   localization: {
     locales: [
       { label: 'English', code: 'en' },
