@@ -9,12 +9,13 @@ const REQUIRED_COLUMNS: Record<string, number> = {
 }
 
 const columnFields: Field[] = [
-  { name: 'heading', type: 'text' },
-  { name: 'richText', type: 'richText', label: 'Content' },
+  { name: 'heading', type: 'text', localized: true },
+  { name: 'richText', type: 'richText', localized: true, label: 'Content' },
   { name: 'image', type: 'upload', relationTo: 'media' },
   {
     name: 'altOverride',
     type: 'text',
+    localized: true,
     label: 'Alt text override',
     admin: { condition: (_, siblingData) => Boolean(siblingData?.image) },
   },

@@ -6,6 +6,9 @@ import HomeButton from '@/components/home/HomeButton'
 import { Eyebrow, HighlightedHeading } from '@/components/home/SectionHeading'
 import { mediaUrl } from '@/lib/media'
 import type { CaseStudy } from '@/lib/payload'
+import { useLocale } from '@/lib/i18n/useLocale'
+import { localizeHref } from '@/lib/i18n/href'
+import type { Locale } from '@/lib/i18n/config'
 
 function ArrowButton({ direction, onClick }: { direction: 'left' | 'right'; onClick: () => void }) {
   return (
@@ -25,7 +28,7 @@ function ArrowButton({ direction, onClick }: { direction: 'left' | 'right'; onCl
 // The background image, title, description and stats all belong to the case study itself,
 // so this whole card changes per slide — only the section eyebrow and the nav arrows
 // (rendered once in the slider below, overlaid on top) stay constant across slides.
-function CaseStudyCard({ caseStudy }: { caseStudy: CaseStudy }) {
+function CaseStudyCard({ caseStudy, locale }: { caseStudy: CaseStudy; locale: Locale }) {
   return (
     <div className="relative h-full w-full shrink-0 snap-start overflow-hidden">
       <Image src={mediaUrl(caseStudy.backgroundImage)} alt="" fill className="object-cover" />
@@ -59,7 +62,7 @@ function CaseStudyCard({ caseStudy }: { caseStudy: CaseStudy }) {
           {caseStudy.buttonLabel && caseStudy.slug && (
             <HomeButton
               label={caseStudy.buttonLabel}
-              href={`/case-studies/${caseStudy.slug}`}
+              href={localizeHref(`/case-studies/${caseStudy.slug}`, locale)}
               variant="outline"
               className="self-start"
             />
@@ -78,6 +81,7 @@ export default function CaseStudySlider({
   caseStudies: CaseStudy[]
 }) {
   const trackRef = useRef<HTMLDivElement>(null)
+  const locale = useLocale()
 
   const scroll = (direction: 'left' | 'right') => {
     const track = trackRef.current
@@ -101,7 +105,7 @@ export default function CaseStudySlider({
         className="flex h-full snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {caseStudies.map((caseStudy) => (
-          <CaseStudyCard key={caseStudy.id} caseStudy={caseStudy} />
+          <CaseStudyCard key={caseStudy.id} caseStudy={caseStudy} locale={locale} />
         ))}
       </div>
 

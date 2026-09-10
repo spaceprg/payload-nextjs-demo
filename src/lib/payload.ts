@@ -2,9 +2,12 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { mediaUrl } from './media'
 import type { Media } from './media'
+import { getLocale } from './i18n/locale'
+import type { Locale } from './i18n/config'
 
 export { mediaUrl }
 export type { Media }
+export type { Locale }
 
 // Types matching the collections/globals defined in payload.config.ts.
 // Run `npm run generate:types` after your first schema push to replace
@@ -443,10 +446,12 @@ export type ContactGlobal = {
 export async function getServices(): Promise<Service[]> {
   try {
     const payload = await getPayload({ config })
+    const locale = await getLocale()
     const result = await payload.find({
       collection: 'services',
       sort: 'title',
       limit: 100,
+      locale,
     })
     return result.docs as Service[]
   } catch (error) {
@@ -462,10 +467,12 @@ export async function getServices(): Promise<Service[]> {
 export async function getSolutions(): Promise<Solution[]> {
   try {
     const payload = await getPayload({ config })
+    const locale = await getLocale()
     const result = await payload.find({
       collection: 'solutions',
       sort: 'title',
       limit: 100,
+      locale,
     })
     return result.docs as Solution[]
   } catch (error) {
@@ -475,16 +482,19 @@ export async function getSolutions(): Promise<Solution[]> {
 }
 
 /**
- * Fetch a single solution by its slug. Returns null if not found or on error,
- * so callers can trigger a 404 via Next's notFound().
+ * Fetch a single solution by its slug (locale-scoped, since slugs are
+ * translatable). Returns null if not found or on error, so callers can
+ * trigger a 404 via Next's notFound().
  */
 export async function getSolutionBySlug(slug: string): Promise<Solution | null> {
   try {
     const payload = await getPayload({ config })
+    const locale = await getLocale()
     const result = await payload.find({
       collection: 'solutions',
       where: { slug: { equals: slug } },
       limit: 1,
+      locale,
     })
     return (result.docs[0] as Solution) ?? null
   } catch (error) {
@@ -500,10 +510,12 @@ export async function getSolutionBySlug(slug: string): Promise<Solution | null> 
 export async function getCaseStudies(): Promise<CaseStudy[]> {
   try {
     const payload = await getPayload({ config })
+    const locale = await getLocale()
     const result = await payload.find({
       collection: 'case-studies',
       sort: '-createdAt',
       limit: 20,
+      locale,
     })
     return result.docs as CaseStudy[]
   } catch (error) {
@@ -513,16 +525,19 @@ export async function getCaseStudies(): Promise<CaseStudy[]> {
 }
 
 /**
- * Fetch a single service by its slug. Returns null if not found or on error,
- * so callers can trigger a 404 via Next's notFound().
+ * Fetch a single service by its slug (locale-scoped, since slugs are
+ * translatable). Returns null if not found or on error, so callers can
+ * trigger a 404 via Next's notFound().
  */
 export async function getServiceBySlug(slug: string): Promise<Service | null> {
   try {
     const payload = await getPayload({ config })
+    const locale = await getLocale()
     const result = await payload.find({
       collection: 'services',
       where: { slug: { equals: slug } },
       limit: 1,
+      locale,
     })
     return (result.docs[0] as Service) ?? null
   } catch (error) {
@@ -532,16 +547,19 @@ export async function getServiceBySlug(slug: string): Promise<Service | null> {
 }
 
 /**
- * Fetch a single case study by its slug. Returns null if not found or on error,
- * so callers can trigger a 404 via Next's notFound().
+ * Fetch a single case study by its slug (locale-scoped, since slugs are
+ * translatable). Returns null if not found or on error, so callers can
+ * trigger a 404 via Next's notFound().
  */
 export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy | null> {
   try {
     const payload = await getPayload({ config })
+    const locale = await getLocale()
     const result = await payload.find({
       collection: 'case-studies',
       where: { slug: { equals: slug } },
       limit: 1,
+      locale,
     })
     return (result.docs[0] as CaseStudy) ?? null
   } catch (error) {
@@ -557,10 +575,12 @@ export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy | null
 export async function getInsights(): Promise<Insight[]> {
   try {
     const payload = await getPayload({ config })
+    const locale = await getLocale()
     const result = await payload.find({
       collection: 'insights',
       sort: '-publishedDate',
       limit: 50,
+      locale,
     })
     return result.docs as Insight[]
   } catch (error) {
@@ -570,16 +590,19 @@ export async function getInsights(): Promise<Insight[]> {
 }
 
 /**
- * Fetch a single insight by its slug. Returns null if not found or on error,
- * so callers can trigger a 404 via Next's notFound().
+ * Fetch a single insight by its slug (locale-scoped, since slugs are
+ * translatable). Returns null if not found or on error, so callers can
+ * trigger a 404 via Next's notFound().
  */
 export async function getInsightBySlug(slug: string): Promise<Insight | null> {
   try {
     const payload = await getPayload({ config })
+    const locale = await getLocale()
     const result = await payload.find({
       collection: 'insights',
       where: { slug: { equals: slug } },
       limit: 1,
+      locale,
     })
     return (result.docs[0] as Insight) ?? null
   } catch (error) {
@@ -591,7 +614,8 @@ export async function getInsightBySlug(slug: string): Promise<Insight | null> {
 export async function getAbout(): Promise<AboutGlobal | null> {
   try {
     const payload = await getPayload({ config })
-    const result = await payload.findGlobal({ slug: 'about' })
+    const locale = await getLocale()
+    const result = await payload.findGlobal({ slug: 'about', locale })
     return result as AboutGlobal
   } catch (error) {
     console.error('getAbout failed:', error)
@@ -602,7 +626,8 @@ export async function getAbout(): Promise<AboutGlobal | null> {
 export async function getHome(): Promise<HomeGlobal | null> {
   try {
     const payload = await getPayload({ config })
-    const result = await payload.findGlobal({ slug: 'home' })
+    const locale = await getLocale()
+    const result = await payload.findGlobal({ slug: 'home', locale })
     return result as HomeGlobal
   } catch (error) {
     console.error('getHome failed:', error)
@@ -613,10 +638,32 @@ export async function getHome(): Promise<HomeGlobal | null> {
 export async function getContact(): Promise<ContactGlobal | null> {
   try {
     const payload = await getPayload({ config })
-    const result = await payload.findGlobal({ slug: 'contact' })
+    const locale = await getLocale()
+    const result = await payload.findGlobal({ slug: 'contact', locale })
     return result as ContactGlobal
   } catch (error) {
     console.error('getContact failed:', error)
+    return null
+  }
+}
+
+/**
+ * Resolves the other-locale slug for a document, so the language switcher on
+ * a detail page can link to the correct translated document (slugs are
+ * translatable, so they can differ between locales). Returns null if the
+ * document doesn't exist or has no slug in that locale yet.
+ */
+export async function getAlternateSlug(
+  collection: 'services' | 'solutions' | 'case-studies' | 'insights',
+  id: string,
+  targetLocale: Locale,
+): Promise<string | null> {
+  try {
+    const payload = await getPayload({ config })
+    const doc = await payload.findByID({ collection, id, locale: targetLocale })
+    return (doc as { slug?: string | null })?.slug ?? null
+  } catch (error) {
+    console.error(`getAlternateSlug(${collection}, ${id}, ${targetLocale}) failed:`, error)
     return null
   }
 }

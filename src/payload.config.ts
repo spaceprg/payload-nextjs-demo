@@ -28,6 +28,14 @@ export default buildConfig({
   editor: lexicalEditor(),
   collections: [Users, Media, Services, Solutions, FormSubmissions, CaseStudies, Insights],
   globals: [About, Contact, Home],
+  localization: {
+    locales: [
+      { label: 'English', code: 'en' },
+      { label: 'Swedish', code: 'sv' },
+    ],
+    defaultLocale: 'en',
+    fallback: true,
+  },
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

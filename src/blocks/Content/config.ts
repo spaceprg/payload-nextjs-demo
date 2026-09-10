@@ -7,11 +7,12 @@ export const ContentBlock: Block = {
     {
       name: 'eyebrow',
       type: 'text',
+      localized: true,
       label: 'Eyebrow / Subheading',
       admin: { description: 'Small label shown above the heading' },
     },
-    { name: 'heading', type: 'text' },
-    { name: 'richText', type: 'richText', label: 'Content' },
+    { name: 'heading', type: 'text', localized: true },
+    { name: 'richText', type: 'richText', localized: true, label: 'Content' },
     {
       name: 'alignment',
       type: 'select',

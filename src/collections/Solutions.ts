@@ -12,12 +12,13 @@ export const Solutions: CollectionConfig = {
     read: () => true,
   },
   fields: [
-    { name: 'title', type: 'text', required: true },
-    slugField(),
+    { name: 'title', type: 'text', required: true, localized: true },
+    slugField({ localized: true }),
     {
       name: 'shortDescription',
       type: 'textarea',
       required: true,
+      localized: true,
       admin: { description: 'Used on solution listing cards' },
     },
     {
@@ -26,7 +27,7 @@ export const Solutions: CollectionConfig = {
       relationTo: 'media',
       required: true,
     },
-    { name: 'content', type: 'richText' },
+    { name: 'content', type: 'richText', localized: true },
     {
       name: 'layout',
       type: 'blocks',
@@ -41,8 +42,8 @@ export const Solutions: CollectionConfig = {
       name: 'seo',
       type: 'group',
       fields: [
-        { name: 'metaTitle', type: 'text' },
-        { name: 'metaDescription', type: 'textarea' },
+        { name: 'metaTitle', type: 'text', localized: true },
+        { name: 'metaDescription', type: 'textarea', localized: true },
       ],
     },
   ],

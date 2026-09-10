@@ -1,13 +1,18 @@
 'use client'
 
 import { useState } from 'react'
-import { COUNTRIES } from '@/lib/countries'
+import { getCountries } from '@/lib/countries'
+import { useLocale } from '@/lib/i18n/useLocale'
+import type { Dictionary } from '@/lib/i18n/getDictionary'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
 const initialFields = { name: '', business: '', jobTitle: '', email: '', country: '', message: '' }
 
-export default function ContactForm() {
+export default function ContactForm({ dictionary }: { dictionary: Dictionary }) {
+  const t = dictionary.contactForm
+  const locale = useLocale()
+  const countries = getCountries(locale)
   const [status, setStatus] = useState<Status>('idle')
   const [fields, setFields] = useState(initialFields)
 
@@ -24,7 +29,7 @@ export default function ContactForm() {
       const res = await fetch('/api/form-submissions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...fields, formSource: 'contact-page' }),
+        body: JSON.stringify({ ...fields, formSource: 'contact-page', locale }),
       })
 
       if (!res.ok) throw new Error('Request failed')
@@ -39,8 +44,8 @@ export default function ContactForm() {
   if (status === 'success') {
     return (
       <div className="rounded-xl border border-white/10 bg-white/5 p-6 text-center">
-        <p className="text-lg font-medium text-white">Thanks for reaching out.</p>
-        <p className="mt-2 text-sm text-white/70">We&apos;ll be in touch shortly.</p>
+        <p className="text-lg font-medium text-white">{t.thanksHeading}</p>
+        <p className="mt-2 text-sm text-white/70">{t.thanksBody}</p>
       </div>
     )
   }
@@ -49,51 +54,51 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-5 rounded-xl border border-white/10 bg-white/5 p-6">
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
-          <label className="mb-1 block text-sm text-white/70">Name</label>
+          <label className="mb-1 block text-sm text-white/70">{t.nameLabel}</label>
           <input
             type="text"
             required
             value={fields.name}
             onChange={setField('name')}
             className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-white/60"
-            placeholder="Your name"
+            placeholder={t.namePlaceholder}
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm text-white/70">Company</label>
+          <label className="mb-1 block text-sm text-white/70">{t.companyLabel}</label>
           <input
             type="text"
             required
             value={fields.business}
             onChange={setField('business')}
             className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-white/60"
-            placeholder="Your company"
+            placeholder={t.companyPlaceholder}
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm text-white/70">Job title</label>
+          <label className="mb-1 block text-sm text-white/70">{t.jobTitleLabel}</label>
           <input
             type="text"
             value={fields.jobTitle}
             onChange={setField('jobTitle')}
             className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-white/60"
-            placeholder="Your role"
+            placeholder={t.jobTitlePlaceholder}
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm text-white/70">Email</label>
+          <label className="mb-1 block text-sm text-white/70">{t.emailLabel}</label>
           <input
             type="email"
             required
             value={fields.email}
             onChange={setField('email')}
             className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-white/60"
-            placeholder="you@example.com"
+            placeholder={t.emailPlaceholder}
           />
         </div>
       </div>
       <div>
-        <label className="mb-1 block text-sm text-white/70">Country</label>
+        <label className="mb-1 block text-sm text-white/70">{t.countryLabel}</label>
         <select
           required
           value={fields.country}
@@ -101,24 +106,24 @@ export default function ContactForm() {
           className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white outline-none focus:border-white/60 [&>option]:bg-ink"
         >
           <option value="" disabled>
-            Select your country
+            {t.countryPlaceholder}
           </option>
-          {COUNTRIES.map((country) => (
-            <option key={country} value={country}>
-              {country}
+          {countries.map((country) => (
+            <option key={country.code} value={country.code}>
+              {country.label}
             </option>
           ))}
         </select>
       </div>
       <div>
-        <label className="mb-1 block text-sm text-white/70">Message</label>
+        <label className="mb-1 block text-sm text-white/70">{t.messageLabel}</label>
         <textarea
           rows={4}
           required
           value={fields.message}
           onChange={setField('message')}
           className="w-full border-b border-white/20 bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-white/60"
-          placeholder="How can we help?"
+          placeholder={t.messagePlaceholder}
         />
       </div>
       <button
@@ -126,11 +131,9 @@ export default function ContactForm() {
         disabled={status === 'submitting'}
         className="w-full rounded-full bg-gomoblue px-4 py-3 font-serif text-sm italic text-white transition hover:bg-gomoblue/90 disabled:opacity-60"
       >
-        {status === 'submitting' ? 'Sending…' : 'Send Message'}
+        {status === 'submitting' ? t.sending : t.send}
       </button>
-      {status === 'error' && (
-        <p className="text-xs text-rose">Something went wrong — please try again.</p>
-      )}
+      {status === 'error' && <p className="text-xs text-rose">{t.errorMessage}</p>}
     </form>
   )
 }

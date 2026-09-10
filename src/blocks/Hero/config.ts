@@ -5,9 +5,9 @@ export const HeroBlock: Block = {
   slug: 'hero',
   labels: { singular: 'Hero Section', plural: 'Hero Sections' },
   fields: [
-    { name: 'eyebrow', type: 'text', label: 'Eyebrow / Subheading' },
-    { name: 'heading', type: 'text', required: true },
-    { name: 'text', type: 'textarea' },
+    { name: 'eyebrow', type: 'text', localized: true, label: 'Eyebrow / Subheading' },
+    { name: 'heading', type: 'text', required: true, localized: true },
+    { name: 'text', type: 'textarea', localized: true },
     {
       name: 'image',
       type: 'upload',

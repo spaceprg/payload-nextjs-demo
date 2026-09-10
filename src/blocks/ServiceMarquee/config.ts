@@ -4,10 +4,10 @@ export const ServiceMarqueeBlock: Block = {
   slug: 'serviceMarquee',
   labels: { singular: 'Service Marquee', plural: 'Service Marquees' },
   fields: [
-    { name: 'eyebrow', type: 'text', defaultValue: 'Our services' },
-    { name: 'heading', type: 'text', required: true },
-    { name: 'highlight', type: 'text', label: 'Highlighted phrase' },
-    { name: 'subtext', type: 'textarea' },
+    { name: 'eyebrow', type: 'text', localized: true, defaultValue: 'Our services' },
+    { name: 'heading', type: 'text', required: true, localized: true },
+    { name: 'highlight', type: 'text', localized: true, label: 'Highlighted phrase' },
+    { name: 'subtext', type: 'textarea', localized: true },
     {
       name: 'limit',
       type: 'number',

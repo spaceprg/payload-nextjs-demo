@@ -4,11 +4,11 @@ export const InsightsGridBlock: Block = {
   slug: 'insightsGrid',
   labels: { singular: 'Insights Grid', plural: 'Insights Grids' },
   fields: [
-    { name: 'eyebrow', type: 'text', defaultValue: 'Latest insights' },
-    { name: 'heading', type: 'text', required: true },
-    { name: 'highlight', type: 'text', label: 'Highlighted phrase' },
-    { name: 'subtext', type: 'textarea' },
-    { name: 'buttonLabel', type: 'text', defaultValue: 'View all insights' },
+    { name: 'eyebrow', type: 'text', localized: true, defaultValue: 'Latest insights' },
+    { name: 'heading', type: 'text', required: true, localized: true },
+    { name: 'highlight', type: 'text', localized: true, label: 'Highlighted phrase' },
+    { name: 'subtext', type: 'textarea', localized: true },
+    { name: 'buttonLabel', type: 'text', localized: true, defaultValue: 'View all insights' },
     { name: 'buttonHref', type: 'text', defaultValue: '/insights' },
     {
       name: 'limit',

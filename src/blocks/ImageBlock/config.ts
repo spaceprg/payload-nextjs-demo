@@ -13,12 +13,14 @@ export const ImageBlock: Block = {
     {
       name: 'altOverride',
       type: 'text',
+      localized: true,
       label: 'Alt text override',
       admin: { description: "Leave blank to use the image's own alt text" },
     },
     {
       name: 'caption',
       type: 'text',
+      localized: true,
     },
     {
       name: 'alignment',

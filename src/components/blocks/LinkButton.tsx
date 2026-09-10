@@ -1,14 +1,18 @@
 import Link from 'next/link'
 import type { LinkField } from '@/lib/payload'
+import { getLocale } from '@/lib/i18n/locale'
+import { localizeHref } from '@/lib/i18n/href'
 
-/** Resolves a `linkFields` value (internal reference or custom URL) to an href. */
-export function resolveLinkHref(link: LinkField): string {
+/** Resolves a `linkFields` value (internal reference or custom URL) to a locale-aware href. */
+export async function resolveLinkHref(link: LinkField): Promise<string> {
+  const locale = await getLocale()
+
   if (link.type === 'reference' && link.reference) {
     const { relationTo, value } = link.reference
     const slug = typeof value === 'object' && value !== null ? value.slug : undefined
-    if (relationTo === 'services' && slug) return `/services/${slug}`
+    if (relationTo === 'services' && slug) return localizeHref(`/services/${slug}`, locale)
   }
-  return link.url || '#'
+  return localizeHref(link.url || '#', locale)
 }
 
 const STYLES = {
@@ -22,7 +26,7 @@ const STYLES = {
     'rounded-full border border-white/60 px-8 py-3 text-sm font-semibold text-white transition hover:bg-white/10',
 }
 
-export default function LinkButton({
+export default async function LinkButton({
   link,
   variant = 'primary',
   invert = false,
@@ -33,7 +37,7 @@ export default function LinkButton({
 }) {
   if (!link?.label) return null
 
-  const href = resolveLinkHref(link)
+  const href = await resolveLinkHref(link)
   const style = link.style ?? variant
   const className = invert
     ? STYLES[style === 'secondary' ? 'secondaryInverted' : 'primaryInverted']

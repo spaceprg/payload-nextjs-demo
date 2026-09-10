@@ -44,6 +44,7 @@ async function seed() {
 
   await payload.updateGlobal({
     slug: 'about',
+    locale: 'en',
     data: {
       title: 'About Demo Digital Agency',
       content: {
@@ -64,7 +65,30 @@ async function seed() {
   })
 
   await payload.updateGlobal({
+    slug: 'about',
+    locale: 'sv',
+    data: {
+      title: 'Om Demo Digital Agency',
+      content: {
+        root: {
+          children: [
+            {
+              type: 'paragraph',
+              children: [
+                {
+                  text: 'Demo Digital Agency samarbetar med företag för att designa, bygga och utveckla moderna digitala produkter.',
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  })
+
+  await payload.updateGlobal({
     slug: 'contact',
+    locale: 'en',
     data: {
       title: 'Contact Us',
       description: "We'd love to hear about your project.",
@@ -74,7 +98,17 @@ async function seed() {
     },
   })
 
-  console.log('Seed complete.')
+  await payload.updateGlobal({
+    slug: 'contact',
+    locale: 'sv',
+    data: {
+      title: 'Kontakta oss',
+      description: 'Vi vill gärna höra om ditt projekt.',
+      address: 'Stockholm, Sverige',
+    },
+  })
+
+  console.log('Seed complete. (About/Contact seeded in English and Swedish.)')
   process.exit(0)
 }
 

@@ -6,7 +6,11 @@ import ContentSection from '@/components/ContentSection'
 import CTASection from '@/components/CTASection'
 import RichText from '@/components/blocks/RichText'
 import PageBuilder from '@/components/blocks/PageBuilder'
-import { getServiceBySlug, getServices, mediaUrl } from '@/lib/payload'
+import { getServiceBySlug, getServices, getAlternateSlug, mediaUrl } from '@/lib/payload'
+import { getLocale } from '@/lib/i18n/locale'
+import { getDictionary } from '@/lib/i18n/getDictionary'
+import { localizeHref } from '@/lib/i18n/href'
+import { SetAlternateHref } from '@/lib/i18n/alternate-link-context'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -32,10 +36,19 @@ export default async function ServiceDetailPage({ params }: Props) {
 
   if (!service) notFound()
 
+  const locale = await getLocale()
+  const dict = await getDictionary(locale)
+  const otherLocale = locale === 'en' ? 'sv' : 'en'
+  const otherSlug = await getAlternateSlug('services', service.id, otherLocale)
+  const alternateHref = otherSlug
+    ? localizeHref(`/services/${otherSlug}`, otherLocale)
+    : localizeHref('/services', otherLocale)
+
   const hasLayout = service.layout && service.layout.length > 0
 
   return (
     <>
+      <SetAlternateHref href={alternateHref} />
       <HeroBanner title={service.title} imageUrl={mediaUrl(service.heroImage, 'hero')} align="left" />
       {hasLayout ? (
         <PageBuilder blocks={service.layout} />
@@ -45,7 +58,7 @@ export default async function ServiceDetailPage({ params }: Props) {
             <p className="text-lg text-white/80">{service.shortDescription}</p>
             <RichText data={service.content as SerializedEditorState | undefined} className="mt-6" />
           </ContentSection>
-          <CTASection title="Interested in this service?" />
+          <CTASection title={dict.common.ctaInterestedInService} />
         </>
       )}
     </>

@@ -2,25 +2,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import FooterContactForm from './FooterContactForm'
 import type { ContactGlobal } from '@/lib/payload'
-
-const FOOTER_COLUMNS: { heading: string; links: string[] }[] = [
-  { heading: 'About', links: ['About us', 'Insights', 'Career', 'Brand Guidelines'] },
-  {
-    heading: 'Case',
-    links: [
-      'Industrial Manufacturing (B2B E-Commerce)',
-      'FKAB (B2B SME)',
-      'Industrial Manufacturing (Enterprise)',
-      'Atlas Copco',
-      'All Cases',
-    ],
-  },
-  { heading: 'Solutions', links: ['B2B Enterprise', 'B2B SaaS/Tech', 'B2B SME', 'Generative AI'] },
-  {
-    heading: 'Services',
-    links: ['GEO', 'Generative AI', 'SEO', 'SEM/SEA', 'B2B Lead Generation', 'Website Development', 'Website Design'],
-  },
-]
+import { getLocale } from '@/lib/i18n/locale'
+import { localizeHref } from '@/lib/i18n/href'
+import type { Dictionary } from '@/lib/i18n/getDictionary'
 
 // 2x2 grid order matches the design: Gothenburg/Pune on top, London/Stockholm below.
 const OFFICES = [
@@ -36,8 +20,16 @@ const SOCIAL_LINKS = [
   { label: 'YouTube', href: '#', icon: '/images/home/icons/social-frame.svg' },
 ]
 
-export default function Footer({ contact }: { contact?: ContactGlobal | null }) {
+export default async function Footer({
+  contact,
+  dictionary,
+}: {
+  contact?: ContactGlobal | null
+  dictionary: Dictionary
+}) {
   const year = new Date().getFullYear()
+  const locale = await getLocale()
+  const FOOTER_COLUMNS = Object.values(dictionary.footer.columns)
 
   return (
     <footer className="bg-ink">
@@ -49,17 +41,17 @@ export default function Footer({ contact }: { contact?: ContactGlobal | null }) 
           {/* Get Future-Ready */}
           <div className="relative grid grid-cols-1 gap-12 p-8 md:grid-cols-2 md:p-16">
             <div>
-              <p className="text-sm font-medium uppercase tracking-[1.12px] text-white">Get Future-Ready</p>
+              <p className="text-sm font-medium uppercase tracking-[1.12px] text-white">{dictionary.footer.getFutureReady}</p>
               <h2 className="mt-6 text-5xl leading-tight text-white md:text-6xl">
-                <span className="font-medium">{`Let's build `}</span>
-                <span className="font-serif italic text-purple">{`what's next `}</span>
+                <span className="font-medium">{dictionary.footer.headingLine1}</span>
+                <span className="font-serif italic text-purple">{dictionary.footer.headingHighlight1}</span>
                 <br />
-                <span className="font-medium">for </span>
-                <span className="font-serif italic text-mint">your growth.</span>
+                <span className="font-medium">{dictionary.footer.headingLine2}</span>
+                <span className="font-serif italic text-mint">{dictionary.footer.headingHighlight2}</span>
               </h2>
             </div>
 
-            <FooterContactForm />
+            <FooterContactForm dictionary={dictionary} />
           </div>
 
           {/* Footer panel: brand/offices (left) + nav columns (right) */}
@@ -69,14 +61,12 @@ export default function Footer({ contact }: { contact?: ContactGlobal | null }) 
                 <div className="relative h-[60px] w-[221px] max-w-full">
                   <Image src="/images/home/footer/logo-mark.svg" alt="GO MO Group" fill className="object-contain object-left" />
                 </div>
-                <p className="mt-6 max-w-sm text-base leading-6 text-white/70">
-                  Multi-market performance marketing, built to help brands grow, adapt and lead in the generative AI era.
-                </p>
+                <p className="mt-6 max-w-sm text-base leading-6 text-white/70">{dictionary.footer.tagline}</p>
                 <Link
-                  href="/contact"
+                  href={localizeHref('/contact', locale)}
                   className="mt-6 inline-flex w-fit rounded-full bg-gradient-to-r from-[#8f38f8] via-[#268de5] to-[#2804de] px-9 py-3.5 font-serif text-base italic text-white transition hover:opacity-90"
                 >
-                  Start building
+                  {dictionary.footer.startBuilding}
                 </Link>
 
                 <div className="mt-8 grid grid-cols-2 gap-4">
@@ -110,13 +100,13 @@ export default function Footer({ contact }: { contact?: ContactGlobal | null }) 
             </div>
 
             <div className="mt-10 flex flex-col items-center gap-4 border-t border-white/15 pt-6 text-sm text-white md:flex-row md:justify-between">
-              <p>{`Copyright © ${year} GO MO Group`}</p>
+              <p>{dictionary.footer.copyright.replace('{year}', String(year))}</p>
               <div className="flex flex-wrap items-center justify-center gap-4">
-                <Link href="#" className="hover:text-mint">Privacy Policy</Link>
+                <Link href="#" className="hover:text-mint">{dictionary.footer.privacyPolicy}</Link>
                 <span className="text-white/30">|</span>
-                <Link href="#" className="hover:text-mint">Cookie Policy</Link>
+                <Link href="#" className="hover:text-mint">{dictionary.footer.cookiePolicy}</Link>
                 <span className="text-white/30">|</span>
-                <Link href="/agent" className="hover:text-mint">AI Agent Information</Link>
+                <Link href={localizeHref('/agent', locale)} className="hover:text-mint">{dictionary.footer.aiAgentInfo}</Link>
               </div>
               <div className="flex items-center gap-2.5">
                 {SOCIAL_LINKS.map((social) => (

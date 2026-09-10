@@ -36,6 +36,16 @@ export const FormSubmissions: CollectionConfig = {
       ],
     },
     {
+      name: 'locale',
+      type: 'select',
+      label: 'Site language',
+      admin: { position: 'sidebar', description: 'Which language of the site the visitor submitted from.' },
+      options: [
+        { label: 'English', value: 'en' },
+        { label: 'Swedish', value: 'sv' },
+      ],
+    },
+    {
       name: 'emailStatus',
       type: 'select',
       defaultValue: 'pending',

@@ -6,6 +6,8 @@ import CTASection from '@/components/CTASection'
 import RichText from '@/components/blocks/RichText'
 import PageBuilder from '@/components/blocks/PageBuilder'
 import { getAbout, mediaUrl } from '@/lib/payload'
+import { getLocale } from '@/lib/i18n/locale'
+import { getDictionary } from '@/lib/i18n/getDictionary'
 
 export async function generateMetadata(): Promise<Metadata> {
   const about = await getAbout()
@@ -17,7 +19,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function AboutPage() {
   const about = await getAbout()
-  const title = about?.title || 'About GO MO Group'
+  const dict = await getDictionary(await getLocale())
+  const title = about?.title || dict.common.aboutFallbackTitle
   const hasLayout = about?.layout && about.layout.length > 0
 
   if (hasLayout) {
@@ -30,7 +33,7 @@ export default async function AboutPage() {
       <ContentSection>
         <RichText data={about?.content as SerializedEditorState | undefined} />
       </ContentSection>
-      <CTASection title="Want to work with us?" />
+      <CTASection title={dict.common.ctaWantToWorkWithUs} />
     </>
   )
 }

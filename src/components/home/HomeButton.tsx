@@ -9,6 +9,10 @@ const VARIANT_CLASS: Record<HomeButtonVariant, string> = {
   outline: 'border border-gomoblue bg-white text-gomoblue hover:bg-gomoblue/5',
 }
 
+// Note: this is a plain (non-async) component, usable from both Server and
+// Client Components (e.g. the case study / service sliders). Callers are
+// responsible for passing an already-locale-prefixed `href` — see
+// `localizeHref` (server: `getLocale()`, client: `useLocale()`).
 export default function HomeButton({
   label,
   href,

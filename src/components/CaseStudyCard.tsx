@@ -1,8 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { mediaUrl, type CaseStudy } from '@/lib/payload'
+import { getLocale } from '@/lib/i18n/locale'
+import { getDictionary } from '@/lib/i18n/getDictionary'
+import { localizeHref } from '@/lib/i18n/href'
 
-function CardInner({ caseStudy }: { caseStudy: CaseStudy }) {
+function CardInner({ caseStudy, readFullCase }: { caseStudy: CaseStudy; readFullCase: string }) {
   return (
     <>
       <div className="relative h-48 w-full overflow-hidden bg-white/5">
@@ -29,7 +32,7 @@ function CardInner({ caseStudy }: { caseStudy: CaseStudy }) {
         </div>
         {caseStudy.slug && (
           <span className="mt-4 text-sm font-medium text-mint group-hover:underline">
-            {caseStudy.buttonLabel || 'Read full case'} →
+            {caseStudy.buttonLabel || readFullCase} →
           </span>
         )}
       </div>
@@ -37,21 +40,23 @@ function CardInner({ caseStudy }: { caseStudy: CaseStudy }) {
   )
 }
 
-export default function CaseStudyCard({ caseStudy }: { caseStudy: CaseStudy }) {
+export default async function CaseStudyCard({ caseStudy }: { caseStudy: CaseStudy }) {
+  const locale = await getLocale()
+  const dict = await getDictionary(locale)
   const className =
     'group flex flex-col overflow-hidden rounded-xl border border-white/10 bg-white/5 transition hover:-translate-y-1 hover:border-white/20'
 
   if (caseStudy.slug) {
     return (
-      <Link href={`/case-studies/${caseStudy.slug}`} className={className}>
-        <CardInner caseStudy={caseStudy} />
+      <Link href={localizeHref(`/case-studies/${caseStudy.slug}`, locale)} className={className}>
+        <CardInner caseStudy={caseStudy} readFullCase={dict.common.readFullCase} />
       </Link>
     )
   }
 
   return (
     <div className={className}>
-      <CardInner caseStudy={caseStudy} />
+      <CardInner caseStudy={caseStudy} readFullCase={dict.common.readFullCase} />
     </div>
   )
 }

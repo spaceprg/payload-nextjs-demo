@@ -1,11 +1,17 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { mediaUrl, type Service } from '@/lib/payload'
+import { getLocale } from '@/lib/i18n/locale'
+import { getDictionary } from '@/lib/i18n/getDictionary'
+import { localizeHref } from '@/lib/i18n/href'
 
-export default function ServiceCard({ service }: { service: Service }) {
+export default async function ServiceCard({ service }: { service: Service }) {
+  const locale = await getLocale()
+  const dict = await getDictionary(locale)
+
   return (
     <Link
-      href={`/services/${service.slug}`}
+      href={localizeHref(`/services/${service.slug}`, locale)}
       className="group flex flex-col overflow-hidden rounded-xl border border-white/10 bg-white/5 transition hover:-translate-y-1 hover:border-white/20"
     >
       <div className="relative h-48 w-full overflow-hidden bg-white/5">
@@ -20,7 +26,7 @@ export default function ServiceCard({ service }: { service: Service }) {
         <h3 className="text-lg font-semibold text-white">{service.title}</h3>
         <p className="mt-2 flex-1 text-sm text-white/70">{service.shortDescription}</p>
         <span className="mt-4 text-sm font-medium text-mint group-hover:underline">
-          Read More →
+          {dict.common.readMore} →
         </span>
       </div>
     </Link>

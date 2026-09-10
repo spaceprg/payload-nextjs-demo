@@ -4,16 +4,16 @@ export const VideoTestimonialsBlock: Block = {
   slug: 'videoTestimonials',
   labels: { singular: 'Video Testimonials', plural: 'Video Testimonials Sections' },
   fields: [
-    { name: 'eyebrow', type: 'text', defaultValue: 'Behind the work' },
-    { name: 'heading', type: 'text', required: true },
-    { name: 'highlight', type: 'text', label: 'Highlighted phrase' },
+    { name: 'eyebrow', type: 'text', localized: true, defaultValue: 'Behind the work' },
+    { name: 'heading', type: 'text', required: true, localized: true },
+    { name: 'highlight', type: 'text', localized: true, label: 'Highlighted phrase' },
     {
       name: 'mainSpeaker',
       type: 'group',
       fields: [
         { name: 'posterImage', type: 'upload', relationTo: 'media' },
         { name: 'name', type: 'text', required: true },
-        { name: 'role', type: 'text', required: true },
+        { name: 'role', type: 'text', required: true, localized: true },
         {
           name: 'youtubeUrl',
           type: 'text',
@@ -30,7 +30,7 @@ export const VideoTestimonialsBlock: Block = {
       fields: [
         { name: 'posterImage', type: 'upload', relationTo: 'media' },
         { name: 'name', type: 'text', required: true },
-        { name: 'role', type: 'text', required: true },
+        { name: 'role', type: 'text', required: true, localized: true },
         {
           name: 'youtubeUrl',
           type: 'text',

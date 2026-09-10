@@ -4,8 +4,8 @@ export const TestimonialsBlock: Block = {
   slug: 'testimonials',
   labels: { singular: 'Testimonials Section', plural: 'Testimonials Sections' },
   fields: [
-    { name: 'eyebrow', type: 'text', label: 'Eyebrow / Subheading' },
-    { name: 'heading', type: 'text' },
+    { name: 'eyebrow', type: 'text', localized: true, label: 'Eyebrow / Subheading' },
+    { name: 'heading', type: 'text', localized: true },
     {
       name: 'testimonials',
       type: 'array',
@@ -13,9 +13,9 @@ export const TestimonialsBlock: Block = {
       maxRows: 6,
       labels: { singular: 'Testimonial', plural: 'Testimonials' },
       fields: [
-        { name: 'quote', type: 'textarea', required: true },
+        { name: 'quote', type: 'textarea', required: true, localized: true },
         { name: 'authorName', type: 'text', required: true },
-        { name: 'authorRole', type: 'text', label: 'Role / Company' },
+        { name: 'authorRole', type: 'text', localized: true, label: 'Role / Company' },
         { name: 'authorImage', type: 'upload', relationTo: 'media', label: 'Author photo' },
       ],
     },

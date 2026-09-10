@@ -4,10 +4,10 @@ export const OfficesBlock: Block = {
   slug: 'offices',
   labels: { singular: 'Offices Section', plural: 'Offices Sections' },
   fields: [
-    { name: 'eyebrow', type: 'text', defaultValue: 'Our Offices' },
-    { name: 'heading', type: 'text', required: true },
-    { name: 'highlight', type: 'text', label: 'Highlighted phrase' },
-    { name: 'subtext', type: 'textarea' },
+    { name: 'eyebrow', type: 'text', localized: true, defaultValue: 'Our Offices' },
+    { name: 'heading', type: 'text', required: true, localized: true },
+    { name: 'highlight', type: 'text', localized: true, label: 'Highlighted phrase' },
+    { name: 'subtext', type: 'textarea', localized: true },
     {
       name: 'offices',
       type: 'array',
@@ -16,8 +16,8 @@ export const OfficesBlock: Block = {
       labels: { singular: 'Office', plural: 'Offices' },
       fields: [
         { name: 'city', type: 'text', required: true },
-        { name: 'country', type: 'text' },
-        { name: 'address', type: 'text', required: true },
+        { name: 'country', type: 'text', localized: true },
+        { name: 'address', type: 'text', required: true, localized: true },
       ],
     },
   ],

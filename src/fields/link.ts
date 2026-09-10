@@ -13,6 +13,7 @@ export const linkFields: Field[] = [
     name: 'label',
     type: 'text',
     required: true,
+    localized: true,
   },
   {
     name: 'type',
@@ -36,6 +37,7 @@ export const linkFields: Field[] = [
   {
     name: 'url',
     type: 'text',
+    localized: true,
     admin: {
       condition: (_, siblingData) => siblingData?.type !== 'reference',
       description: 'e.g. /contact or https://example.com',

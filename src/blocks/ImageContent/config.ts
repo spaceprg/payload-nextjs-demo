@@ -24,12 +24,13 @@ export const ImageContentBlock: Block = {
     {
       name: 'altOverride',
       type: 'text',
+      localized: true,
       label: 'Alt text override',
       admin: { description: "Leave blank to use the image's own alt text" },
     },
-    { name: 'eyebrow', type: 'text', label: 'Eyebrow / Subheading' },
-    { name: 'heading', type: 'text' },
-    { name: 'richText', type: 'richText', label: 'Content' },
+    { name: 'eyebrow', type: 'text', localized: true, label: 'Eyebrow / Subheading' },
+    { name: 'heading', type: 'text', localized: true },
+    { name: 'richText', type: 'richText', localized: true, label: 'Content' },
     {
       name: 'buttons',
       type: 'array',

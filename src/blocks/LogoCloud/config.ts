@@ -4,7 +4,7 @@ export const LogoCloudBlock: Block = {
   slug: 'logoCloud',
   labels: { singular: 'Logo Cloud Section', plural: 'Logo Cloud Sections' },
   fields: [
-    { name: 'heading', type: 'text', admin: { description: 'e.g. "Trusted by teams at"' } },
+    { name: 'heading', type: 'text', localized: true, admin: { description: 'e.g. "Trusted by teams at"' } },
     {
       name: 'logos',
       type: 'array',
@@ -15,6 +15,7 @@ export const LogoCloudBlock: Block = {
         {
           name: 'altOverride',
           type: 'text',
+          localized: true,
           label: 'Alt text override',
           admin: { description: "Leave blank to use the image's own alt text" },
         },

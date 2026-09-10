@@ -4,6 +4,8 @@ import AIWorkflowAccordion from './AIWorkflowAccordion'
 import { Eyebrow, HighlightedHeading } from '@/components/home/SectionHeading'
 import { mediaUrl } from '@/lib/payload'
 import type { AIWorkflowPanelBlockData } from '@/lib/payload'
+import { getLocale } from '@/lib/i18n/locale'
+import { localizeHref } from '@/lib/i18n/href'
 
 const BULLET_COLORS = ['bg-mint', 'bg-purple', 'bg-lime', 'bg-cyan', 'bg-pink', 'bg-rose', 'bg-turquoise']
 
@@ -13,7 +15,7 @@ function bulletColorFor(text: string, index: number) {
   return BULLET_COLORS[(hash + index) % BULLET_COLORS.length]
 }
 
-export default function AIWorkflowPanelBlock({
+export default async function AIWorkflowPanelBlock({
   eyebrow,
   heading,
   highlight,
@@ -26,6 +28,8 @@ export default function AIWorkflowPanelBlock({
   backgroundImage,
 }: AIWorkflowPanelBlockData) {
   if (!heading) return null
+
+  const locale = await getLocale()
 
   const track = tags && tags.length > 0 ? [...tags, ...tags] : []
 
@@ -55,7 +59,7 @@ export default function AIWorkflowPanelBlock({
               />
               {buttonLabel && buttonHref && (
                 <div className="mt-8">
-                  <HomeButton label={buttonLabel} href={buttonHref} variant="gradient" />
+                  <HomeButton label={buttonLabel} href={localizeHref(buttonHref, locale)} variant="gradient" />
                 </div>
               )}
             </div>

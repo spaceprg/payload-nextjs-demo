@@ -4,9 +4,16 @@ import HomeButton from '@/components/home/HomeButton'
 import { Eyebrow, HighlightedHeading } from '@/components/home/SectionHeading'
 import { getInsights, mediaUrl } from '@/lib/payload'
 import type { InsightsGridBlockData } from '@/lib/payload'
+import { getLocale } from '@/lib/i18n/locale'
+import { localizeHref } from '@/lib/i18n/href'
+import type { Locale } from '@/lib/i18n/config'
 
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+function formatDate(dateStr: string, locale: Locale) {
+  return new Date(dateStr).toLocaleDateString(locale === 'sv' ? 'sv-SE' : 'en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
 }
 
 export default async function InsightsGridBlock({
@@ -20,6 +27,7 @@ export default async function InsightsGridBlock({
 }: InsightsGridBlockData) {
   if (!heading) return null
 
+  const locale = await getLocale()
   const insights = (await getInsights()).slice(0, limit ?? 3)
   if (insights.length === 0) return null
 
@@ -36,7 +44,7 @@ export default async function InsightsGridBlock({
           {insights.map((insight) => (
             <Link
               key={insight.id}
-              href={`/insights/${insight.slug}`}
+              href={localizeHref(`/insights/${insight.slug}`, locale)}
               className="group relative flex h-[397px] flex-col justify-end overflow-hidden rounded-lg"
             >
               {insight.heroImage && (
@@ -53,7 +61,7 @@ export default async function InsightsGridBlock({
                 <p className="text-sm uppercase tracking-[1.12px] text-lime">{insight.category}</p>
                 <div className="flex flex-col gap-2 text-white">
                   <div className="flex justify-between text-sm">
-                    <span>{formatDate(insight.publishedDate)}</span>
+                    <span>{formatDate(insight.publishedDate, locale)}</span>
                     <span>{insight.readTime}</span>
                   </div>
                   <p className="text-2xl leading-8">{insight.title}</p>

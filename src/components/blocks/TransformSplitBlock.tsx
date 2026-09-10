@@ -2,8 +2,10 @@ import HomeButton from '@/components/home/HomeButton'
 import TransformGallerySlider from './TransformGallerySlider'
 import { Eyebrow, HighlightedHeading } from '@/components/home/SectionHeading'
 import type { TransformSplitBlockData } from '@/lib/payload'
+import { getLocale } from '@/lib/i18n/locale'
+import { localizeHref } from '@/lib/i18n/href'
 
-export default function TransformSplitBlock({
+export default async function TransformSplitBlock({
   eyebrow,
   heading,
   highlight,
@@ -13,6 +15,8 @@ export default function TransformSplitBlock({
   galleryImages,
 }: TransformSplitBlockData) {
   if (!heading) return null
+
+  const locale = await getLocale()
 
   return (
     <section className="bg-ink py-16 md:py-24">
@@ -26,7 +30,7 @@ export default function TransformSplitBlock({
             {paragraph && <p className="text-base leading-6 text-white/80">{paragraph}</p>}
             {buttonLabel && buttonHref && (
               <div>
-                <HomeButton label={buttonLabel} href={buttonHref} variant="solid" />
+                <HomeButton label={buttonLabel} href={localizeHref(buttonHref, locale)} variant="solid" />
               </div>
             )}
           </div>

@@ -4,11 +4,11 @@ import { layoutBlocks } from '../blocks'
 export const Contact: GlobalConfig = {
   slug: 'contact',
   fields: [
-    { name: 'title', type: 'text', required: true },
-    { name: 'description', type: 'textarea' },
+    { name: 'title', type: 'text', required: true, localized: true },
+    { name: 'description', type: 'textarea', localized: true },
     { name: 'email', type: 'text', required: true },
     { name: 'phone', type: 'text' },
-    { name: 'address', type: 'text' },
+    { name: 'address', type: 'text', localized: true },
     {
       name: 'notificationEmail',
       type: 'email',
@@ -17,7 +17,7 @@ export const Contact: GlobalConfig = {
         description: 'Contact form submissions from the website (contact page + footer form) are emailed to this address.',
       },
     },
-    { name: 'content', type: 'richText' },
+    { name: 'content', type: 'richText', localized: true },
     {
       name: 'layout',
       type: 'blocks',
@@ -32,8 +32,8 @@ export const Contact: GlobalConfig = {
       name: 'seo',
       type: 'group',
       fields: [
-        { name: 'metaTitle', type: 'text' },
-        { name: 'metaDescription', type: 'textarea' },
+        { name: 'metaTitle', type: 'text', localized: true },
+        { name: 'metaDescription', type: 'textarea', localized: true },
       ],
     },
   ],

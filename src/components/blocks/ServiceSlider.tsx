@@ -6,6 +6,10 @@ import { useEffect, useRef, useState } from 'react'
 import { Eyebrow, HighlightedHeading } from '@/components/home/SectionHeading'
 import { mediaUrl } from '@/lib/media'
 import type { Service } from '@/lib/payload'
+import { useLocale } from '@/lib/i18n/useLocale'
+import { localizeHref } from '@/lib/i18n/href'
+import en from '@/lib/i18n/dictionaries/en'
+import sv from '@/lib/i18n/dictionaries/sv'
 
 function ArrowButton({ direction, onClick }: { direction: 'left' | 'right'; onClick: () => void }) {
   return (
@@ -37,6 +41,8 @@ export default function ServiceSlider({
 }) {
   const trackRef = useRef<HTMLDivElement>(null)
   const [progress, setProgress] = useState({ widthPct: 100, leftPct: 0 })
+  const locale = useLocale()
+  const dict = locale === 'sv' ? sv : en
 
   const updateProgress = () => {
     const track = trackRef.current
@@ -118,10 +124,10 @@ export default function ServiceSlider({
                 </p>
 
                 <Link
-                  href={`/services/${service.slug}`}
+                  href={localizeHref(`/services/${service.slug}`, locale)}
                   className="inline-flex w-fit items-center gap-2.5 rounded-lg bg-gomoblue px-4 py-3 font-serif text-sm italic text-white transition hover:bg-gomoblue/90"
                 >
-                  Learn more
+                  {dict.common.learnMore}
                   <span className="relative block h-2.5 w-4">
                     <Image src="/images/home/icons/arrow-right.svg" alt="" fill />
                   </span>

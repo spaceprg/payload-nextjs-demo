@@ -3,8 +3,10 @@ import HomeButton from '@/components/home/HomeButton'
 import { Eyebrow, HighlightedHeading } from '@/components/home/SectionHeading'
 import { mediaUrl } from '@/lib/payload'
 import type { SegmentCardsBlockData } from '@/lib/payload'
+import { getLocale } from '@/lib/i18n/locale'
+import { localizeHref } from '@/lib/i18n/href'
 
-export default function SegmentCardsBlock({
+export default async function SegmentCardsBlock({
   eyebrow,
   heading,
   highlight,
@@ -12,6 +14,8 @@ export default function SegmentCardsBlock({
   cards,
 }: SegmentCardsBlockData) {
   if (!heading || !cards || cards.length === 0) return null
+
+  const locale = await getLocale()
 
   return (
     <section className="bg-ink py-16 md:py-24">
@@ -44,7 +48,12 @@ export default function SegmentCardsBlock({
               </div>
               {card.buttonLabel && card.buttonHref && (
                 <div className="relative mt-6 shrink-0">
-                  <HomeButton label={card.buttonLabel} href={card.buttonHref} variant="solid" className="px-8 py-3.5 text-sm" />
+                  <HomeButton
+                    label={card.buttonLabel}
+                    href={localizeHref(card.buttonHref, locale)}
+                    variant="solid"
+                    className="px-8 py-3.5 text-sm"
+                  />
                 </div>
               )}
             </div>

@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import PageBuilder from '@/components/blocks/PageBuilder'
 import ContactFormSection from '@/components/ContactFormSection'
 import { getContact } from '@/lib/payload'
+import { getLocale } from '@/lib/i18n/locale'
+import { getDictionary } from '@/lib/i18n/getDictionary'
 
 export async function generateMetadata(): Promise<Metadata> {
   const contact = await getContact()
@@ -13,6 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ContactPage() {
   const contact = await getContact()
+  const dict = await getDictionary(await getLocale())
   const hasLayout = contact?.layout && contact.layout.length > 0
 
   return (
@@ -22,7 +25,9 @@ export default async function ContactPage() {
       ) : (
         <div className="bg-ink pt-32">
           <div className="mx-auto max-w-content px-6">
-            <h1 className="text-4xl font-medium text-white md:text-5xl">{contact?.title || 'Contact Us'}</h1>
+            <h1 className="text-4xl font-medium text-white md:text-5xl">
+              {contact?.title || dict.common.contactFallbackTitle}
+            </h1>
           </div>
         </div>
       )}

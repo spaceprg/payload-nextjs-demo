@@ -3,8 +3,10 @@ import HomeButton from '@/components/home/HomeButton'
 import { HighlightedHeading } from '@/components/home/SectionHeading'
 import { mediaUrl } from '@/lib/payload'
 import type { HomeHeroBlockData } from '@/lib/payload'
+import { getLocale } from '@/lib/i18n/locale'
+import { localizeHref } from '@/lib/i18n/href'
 
-export default function HomeHeroBlock({
+export default async function HomeHeroBlock({
   eyebrow,
   heading,
   highlight,
@@ -17,6 +19,8 @@ export default function HomeHeroBlock({
   backgroundVideo,
 }: HomeHeroBlockData) {
   if (!heading) return null
+
+  const locale = await getLocale()
 
   // A video file can end up in either field depending on which the editor picked, so
   // resolve the actual video source rather than trusting `backgroundType` alone.
@@ -77,7 +81,7 @@ export default function HomeHeroBlock({
               {subtext && <p className="text-base leading-6 text-white/90">{subtext}</p>}
               {buttonLabel && buttonHref && (
                 <div className="mt-6">
-                  <HomeButton label={buttonLabel} href={buttonHref} variant="gradient" />
+                  <HomeButton label={buttonLabel} href={localizeHref(buttonHref, locale)} variant="gradient" />
                 </div>
               )}
             </div>

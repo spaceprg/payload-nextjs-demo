@@ -4,7 +4,7 @@ export const StatsBlock: Block = {
   slug: 'stats',
   labels: { singular: 'Stats Section', plural: 'Stats Sections' },
   fields: [
-    { name: 'heading', type: 'text' },
+    { name: 'heading', type: 'text', localized: true },
     {
       name: 'stats',
       type: 'array',
@@ -13,7 +13,7 @@ export const StatsBlock: Block = {
       labels: { singular: 'Stat', plural: 'Stats' },
       fields: [
         { name: 'value', type: 'text', required: true, admin: { description: 'e.g. 250+ or 99%' } },
-        { name: 'label', type: 'text', required: true },
+        { name: 'label', type: 'text', required: true, localized: true },
       ],
     },
     {

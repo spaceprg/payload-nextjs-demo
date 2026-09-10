@@ -5,8 +5,8 @@ export const CTABlock: Block = {
   slug: 'cta',
   labels: { singular: 'CTA / Button Section', plural: 'CTA / Button Sections' },
   fields: [
-    { name: 'heading', type: 'text' },
-    { name: 'text', type: 'textarea' },
+    { name: 'heading', type: 'text', localized: true },
+    { name: 'text', type: 'textarea', localized: true },
     {
       name: 'alignment',
       type: 'select',

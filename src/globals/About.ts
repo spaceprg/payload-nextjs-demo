@@ -4,9 +4,9 @@ import { layoutBlocks } from '../blocks'
 export const About: GlobalConfig = {
   slug: 'about',
   fields: [
-    { name: 'title', type: 'text', required: true },
+    { name: 'title', type: 'text', required: true, localized: true },
     { name: 'heroImage', type: 'upload', relationTo: 'media' },
-    { name: 'content', type: 'richText' },
+    { name: 'content', type: 'richText', localized: true },
     {
       name: 'layout',
       type: 'blocks',
@@ -21,8 +21,8 @@ export const About: GlobalConfig = {
       name: 'seo',
       type: 'group',
       fields: [
-        { name: 'metaTitle', type: 'text' },
-        { name: 'metaDescription', type: 'textarea' },
+        { name: 'metaTitle', type: 'text', localized: true },
+        { name: 'metaDescription', type: 'textarea', localized: true },
       ],
     },
   ],

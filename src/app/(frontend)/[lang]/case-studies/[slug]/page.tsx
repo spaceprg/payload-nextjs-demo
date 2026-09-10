@@ -5,7 +5,11 @@ import HeroBanner from '@/components/HeroBanner'
 import ContentSection from '@/components/ContentSection'
 import CTASection from '@/components/CTASection'
 import RichText from '@/components/blocks/RichText'
-import { getCaseStudyBySlug, getCaseStudies, mediaUrl } from '@/lib/payload'
+import { getCaseStudyBySlug, getCaseStudies, getAlternateSlug, mediaUrl } from '@/lib/payload'
+import { getLocale } from '@/lib/i18n/locale'
+import { getDictionary } from '@/lib/i18n/getDictionary'
+import { localizeHref } from '@/lib/i18n/href'
+import { SetAlternateHref } from '@/lib/i18n/alternate-link-context'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -31,8 +35,17 @@ export default async function CaseStudyDetailPage({ params }: Props) {
 
   if (!caseStudy) notFound()
 
+  const locale = await getLocale()
+  const dict = await getDictionary(locale)
+  const otherLocale = locale === 'en' ? 'sv' : 'en'
+  const otherSlug = await getAlternateSlug('case-studies', caseStudy.id, otherLocale)
+  const alternateHref = otherSlug
+    ? localizeHref(`/case-studies/${otherSlug}`, otherLocale)
+    : localizeHref('/case-studies', otherLocale)
+
   return (
     <>
+      <SetAlternateHref href={alternateHref} />
       <HeroBanner title={caseStudy.title} imageUrl={mediaUrl(caseStudy.backgroundImage, 'hero')} align="left">
         {caseStudy.client && <p>{caseStudy.client}</p>}
       </HeroBanner>
@@ -51,7 +64,7 @@ export default async function CaseStudyDetailPage({ params }: Props) {
         {caseStudy.excerpt && <p className="text-lg text-white/80">{caseStudy.excerpt}</p>}
         <RichText data={caseStudy.content as SerializedEditorState | undefined} className="mt-6" />
       </ContentSection>
-      <CTASection title="Interested in results like these?" />
+      <CTASection title={dict.common.ctaInterestedInResults} />
     </>
   )
 }

@@ -4,7 +4,7 @@ export const CaseStudySpotlightBlock: Block = {
   slug: 'caseStudySpotlight',
   labels: { singular: 'Case Study Spotlight', plural: 'Case Study Spotlights' },
   fields: [
-    { name: 'eyebrow', type: 'text', defaultValue: 'Case studies' },
+    { name: 'eyebrow', type: 'text', localized: true, defaultValue: 'Case studies' },
     // Deprecated: the slide headline now comes from each Case Study's own title/highlight
     // fields. Kept (rather than dropped) so the dev schema push doesn't run a destructive
     // column migration.

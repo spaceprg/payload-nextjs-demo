@@ -4,9 +4,9 @@ export const ContactPersonsBlock: Block = {
   slug: 'contactPersons',
   labels: { singular: 'Contact Persons Section', plural: 'Contact Persons Sections' },
   fields: [
-    { name: 'eyebrow', type: 'text', defaultValue: 'Get in touch' },
-    { name: 'heading', type: 'text', required: true },
-    { name: 'highlight', type: 'text', label: 'Highlighted phrase' },
+    { name: 'eyebrow', type: 'text', localized: true, defaultValue: 'Get in touch' },
+    { name: 'heading', type: 'text', required: true, localized: true },
+    { name: 'highlight', type: 'text', localized: true, label: 'Highlighted phrase' },
     {
       name: 'persons',
       type: 'array',
@@ -16,8 +16,8 @@ export const ContactPersonsBlock: Block = {
       fields: [
         { name: 'photo', type: 'upload', relationTo: 'media' },
         { name: 'name', type: 'text', required: true },
-        { name: 'role', type: 'text', required: true },
-        { name: 'reason', type: 'text', label: 'Contact for', admin: { description: 'e.g. "New business" or "Invoice questions"' } },
+        { name: 'role', type: 'text', required: true, localized: true },
+        { name: 'reason', type: 'text', localized: true, label: 'Contact for', admin: { description: 'e.g. "New business" or "Invoice questions"' } },
         { name: 'email', type: 'email' },
         { name: 'phone', type: 'text' },
       ],
